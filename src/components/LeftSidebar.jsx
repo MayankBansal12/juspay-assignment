@@ -1,8 +1,23 @@
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
+import {
+    Sidebar,
+    SidebarContent,
+    SidebarGroup,
+    SidebarGroupLabel,
+    SidebarHeader,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+    SidebarMenuSub,
+    SidebarMenuSubButton,
+    SidebarMenuSubItem,
+} from '@/components/ui/sidebar'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
+import { useStore } from '@/store/useStore'
 import {
     BookOpen,
-    ChevronDown,
     ChevronRight,
     Dot,
     FileText,
@@ -11,147 +26,197 @@ import {
     PieChart,
     Settings,
     ShoppingBag,
+    ShoppingCart,
     User,
     User2,
-    Users
+    Users,
 } from 'lucide-react'
+import { motion } from 'motion/react'
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import { useStore } from '../store/useStore'
-import { ShoppingCart } from "lucide-react"
 
 const dashboards = [
     { name: 'Default', icon: PieChart, path: '/dashboard/default' },
     { name: 'Order List', icon: ShoppingCart, path: '/dashboard/order-list' },
-    { name: 'eCommerce', icon: ShoppingBag, path: '/dashboard/ecommerce', comingSoon: true },
-    { name: 'Projects', icon: Folder, path: '/dashboard/projects', comingSoon: true },
-    { name: 'Online Courses', icon: BookOpen, path: '/dashboard/courses', comingSoon: true },
+    { name: 'eCommerce', icon: ShoppingBag, path: '/dashboard/ecommerce' },
+    { name: 'Projects', icon: Folder, path: '/dashboard/projects' },
+    { name: 'Online Courses', icon: BookOpen, path: '/dashboard/courses' },
 ]
 
 const pages = [
     {
         name: 'User Profile',
         icon: User,
-        children: ['Overview', 'Projects', 'Campaigns', 'Documents', 'Followers']
+        children: ['Overview', 'Projects', 'Campaigns', 'Documents', 'Followers'],
     },
-    { name: 'Account', icon: Settings, comingSoon: true },
-    { name: 'Corporate', icon: Users, comingSoon: true },
-    { name: 'Blog', icon: FileText, comingSoon: true },
-    { name: 'Social', icon: MessageSquare, comingSoon: true },
+    {
+        name: 'Account',
+        icon: Settings,
+        children: ['Details', 'Billing']
+    },
+    {
+        name: 'Corporate',
+        icon: Users,
+        children: ['Overview', 'Teams']
+    },
+    {
+        name: 'Blog',
+        icon: FileText,
+        children: ['Posts', 'Comments', 'Categories']
+    },
+    {
+        name: 'Social',
+        icon: MessageSquare,
+        children: ['Campaigns', 'Inbox']
+    },
 ]
 
-const LeftSidebar = () => {
-    const { isLeftSidebarOpen } = useStore()
-    const [favorites, setFavorites] = useState(['Overview', 'Projects'])
-    const [recently, setRecently] = useState(['Campaigns', 'Documents'])
 
-    if (!isLeftSidebarOpen) return null
+const LeftSidebar = () => {
+    const [favorites] = useState(['Overview', 'Projects'])
+    const [recently, setRecently] = useState(['Campaigns', 'Documents'])
+    const [activeTab, setActiveTab] = useState('favorites')
+
+    const handleDashboardClick = (itemName) => {
+        if (!recently.includes(itemName)) {
+            setRecently((prev) => [itemName, ...prev.slice(0, 1)])
+        }
+    }
+
+    const { isLeftSidebarOpen } = useStore()
 
     return (
-        <aside
-            className={cn(
-                "flex flex-col h-full border-r bg-background transition-all duration-300 overflow-y-auto",
-                "w-[212px]"
-            )}
-        >
-            <div className="p-4 flex items-center gap-3 mb-4">
-                <Avatar className="h-8 w-8">
-                    <AvatarFallback><User2 className="h-4 w-4" /></AvatarFallback>
-                </Avatar>
-                <span className="font-medium text-sm">ByeWind</span>
-            </div>
-
-            <div className="px-4 mb-6">
-                <div className="flex gap-4 text-xs text-muted-foreground mb-2">
-                    <span className="cursor-pointer hover:text-foreground transition-colors">Favorites</span>
-                    <span className="cursor-pointer hover:text-foreground transition-colors opacity-50">Recently</span>
+        <Sidebar collapsible="offcanvas" open={isLeftSidebarOpen} className="flex flex-col h-full w-[212px] border-r bg-background transition-all duration-300 overflow-y-auto">
+            <SidebarHeader className="p-4">
+                <div className="flex items-center gap-3 overflow-hidden">
+                    <Avatar className="h-8 w-8 shrink-0">
+                        <AvatarFallback>
+                            <User2 className="h-4 w-4" />
+                        </AvatarFallback>
+                    </Avatar>
+                    <div className="flex flex-col truncate">
+                        <span className="font-medium text-sm truncate">ByeWind</span>
+                    </div>
                 </div>
-                <ul className="space-y-1">
-                    {favorites.map((item) => (
-                        <li key={item} className="flex items-center text-sm text-muted-foreground hover:text-foreground cursor-pointer py-1">
-                            <Dot className="h-4 w-4 mr-1" />
-                            {item}
-                        </li>
-                    ))}
-                </ul>
-            </div>
-
-            <div className="px-2 mb-6">
-                <h3 className="px-2 text-xs font-medium text-muted-foreground mb-2">Dashboards</h3>
-                <ul className="space-y-1">
-                    {dashboards.map((item) => (
-                        <li key={item.name}>
-                            <NavLink
-                                to={item.path}
-                                className={({ isActive }) => cn(
-                                    "relative flex items-center gap-2 px-2 py-1 rounded-md text-sm transition-colors",
-                                    isActive
-                                        ? "bg-secondary text-foreground font-medium"
-                                        : "text-muted-foreground hover:bg-secondary/50 hover:text-foreground",
-                                )}
-                                onClick={(e) => {
-                                    if (!recently.includes(item.name)) {
-                                        setRecently(prev => [item.name, ...prev.slice(0, 1)])
-                                    }
-                                }}
-                            >
-                                {({ isActive }) => (
-                                    <>
-                                        {isActive && <div className="w-1 h-4 bg-foreground rounded-full absolute left-0" />}
-
-                                        <div className="px-4 flex items-center justify-center gap-1">
-                                            <item.icon className="h-4 w-4" />
-                                            <span className="text-sm">{item.name}</span>
-                                        </div>
-
-                                        <div></div>
-                                    </>
-                                )}
-                            </NavLink>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-
-            <div className="px-2">
-                <h3 className="px-2 text-xs font-medium text-muted-foreground mb-2">Pages</h3>
-                <ul className="space-y-1">
-                    {pages.map((item) => (
-                        <li key={item.name}>
-                            {item.children ? (
-                                <div className="space-y-1">
-                                    <div className="flex items-center gap-2 px-2 py-1.5 text-sm text-foreground font-medium cursor-pointer">
-                                        <ChevronDown className="h-3 w-3" />
-                                        <item.icon className="h-4 w-4" />
-                                        <span>{item.name}</span>
-                                    </div>
-                                    <ul className="pl-9 space-y-1">
-                                        {item.children.map((child) => (
-                                            <li
-                                                key={child}
-                                                className="text-sm text-muted-foreground hover:text-foreground cursor-pointer py-1"
-                                            >
-                                                {child}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            ) : (
-                                <div className={cn(
-                                    "flex items-center gap-2 px-2 py-1.5 rounded-md text-sm text-muted-foreground",
-                                )}>
-                                    <ChevronRight className="h-3 w-3" />
-                                    <item.icon className="h-4 w-4" />
-                                    <span>{item.name}</span>
-                                </div>
+            </SidebarHeader>
+            <SidebarContent>
+                <SidebarGroup>
+                    <div className="flex gap-4 text-xs text-muted-foreground mb-2 px-2">
+                        <button
+                            onClick={() => setActiveTab('favorites')}
+                            className={cn(
+                                'transition-colors hover:text-foreground',
+                                activeTab === 'favorites' ? 'text-foreground font-medium' : ''
                             )}
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        </aside>
+                        >
+                            Favorites
+                        </button>
+                        <button
+                            onClick={() => setActiveTab('recently')}
+                            className={cn(
+                                'transition-colors hover:text-foreground',
+                                activeTab === 'recently' ? 'text-foreground font-medium' : ''
+                            )}
+                        >
+                            Recently
+                        </button>
+                    </div>
+                    <SidebarMenu>
+                        {(activeTab === 'favorites' ? favorites : recently).map((item) => (
+                            <SidebarMenuItem key={item}>
+                                <SidebarMenuButton size="sm">
+                                    <Dot className="h-4 w-4 mr-1" />
+                                    <span>{item}</span>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        ))}
+                    </SidebarMenu>
+                </SidebarGroup>
+
+                <SidebarGroup>
+                    <SidebarGroupLabel>Dashboards</SidebarGroupLabel>
+                    <SidebarMenu>
+                        {dashboards.map((item) => (
+                            <SidebarMenuItem key={item.name}>
+                                <SidebarMenuButton
+                                    asChild
+                                    tooltip={item.name}
+                                    className="p-0 hover:bg-transparent"
+                                    onClick={() => handleDashboardClick(item.name)}
+                                >
+                                    <NavLink to={item.path}>
+                                        {({ isActive }) => (
+                                            <div
+                                                className={cn(
+                                                    "relative w-full flex items-center gap-2 px-2 py-1.5 rounded-md text-sm transition-colors",
+                                                    isActive
+                                                        ? "bg-secondary text-foreground font-medium"
+                                                        : "text-muted-foreground hover:bg-secondary/50 hover:text-foreground"
+                                                )}
+                                            >
+                                                {isActive && (
+                                                    <div className="w-1 h-4 bg-foreground rounded-full absolute left-0" />
+                                                )}
+
+                                                <div className="px-4 flex items-center justify-center gap-1">
+                                                    <item.icon className="h-4 w-4" />
+                                                    <span className="text-sm">{item.name}</span>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </NavLink>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        ))}
+                    </SidebarMenu>
+                </SidebarGroup>
+
+                <SidebarGroup>
+                    <SidebarGroupLabel>Pages</SidebarGroupLabel>
+                    <SidebarMenu>
+                        {pages.map((item) => (
+                            <Collapsible
+                                key={item.name}
+                                asChild
+                                // defaultOpen={item.name === 'User Profile'}
+                                className="group/collapsible"
+                            >
+                                <SidebarMenuItem>
+                                    <CollapsibleTrigger asChild>
+                                        <SidebarMenuButton tooltip={item.name}>
+                                            <ChevronRight className="transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                                            <item.icon />
+                                            <span>{item.name}</span>
+                                        </SidebarMenuButton>
+                                    </CollapsibleTrigger>
+                                    <CollapsibleContent>
+                                        <SidebarMenuSub>
+                                            {item.children
+                                                ? item.children.map((child) => (
+                                                    <Tooltip key={child}>
+                                                        <TooltipTrigger>
+                                                            <SidebarMenuSubItem>
+                                                                <SidebarMenuSubButton asChild>
+                                                                    <motion.span whileHover={{ x: 2, transition: { duration: 0.2 } }} className="cursor-pointer">
+                                                                        {child}
+                                                                    </motion.span>
+                                                                </SidebarMenuSubButton>
+                                                            </SidebarMenuSubItem>
+                                                        </TooltipTrigger>
+                                                        <TooltipContent>Coming Soon</TooltipContent>
+                                                    </Tooltip>
+                                                ))
+                                                : null}
+                                        </SidebarMenuSub>
+                                    </CollapsibleContent>
+                                </SidebarMenuItem>
+                            </Collapsible>
+                        ))}
+                    </SidebarMenu>
+                </SidebarGroup>
+            </SidebarContent>
+        </Sidebar>
     )
 }
 
 export { LeftSidebar }
-

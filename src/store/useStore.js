@@ -8,7 +8,8 @@ export const useStore = create(
       isActivitySidebarOpen: true,
       theme: 'light',
       toggleLeftSidebar: () => set((state) => ({ isLeftSidebarOpen: !state.isLeftSidebarOpen })),
-      toggleRightSidebar: () => set((state) => ({ isActivitySidebarOpen: !state.isActivitySidebarOpen })),
+      toggleActivitybar: () =>
+        set((state) => ({ isActivitySidebarOpen: !state.isActivitySidebarOpen })),
       setTheme: (theme) => set({ theme }),
     }),
     {
