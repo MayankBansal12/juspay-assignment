@@ -1,3 +1,4 @@
+import { SearchBar } from '@/components/SearchBar'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,10 +9,10 @@ import {
 } from '@/components/ui/breadcrumb'
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
-import { Bell, History, Moon, PanelLeft, PanelRight, Search, Star, Sun } from 'lucide-react'
+import { useStore } from '@/store/useStore'
+import { Bell, History, Moon, PanelLeft, PanelRight, Star, Sun } from 'lucide-react'
 import React from 'react'
 import { useLocation } from 'react-router-dom'
-import { useStore } from '../store/useStore'
 
 const breadcrumbMap = {
   dashboard: 'Dashboards',
@@ -32,8 +33,9 @@ const Header = () => {
   } = useStore()
 
   return (
-    <header className="flex items-center justify-between px-6 h-[68px] w-full bg-background transition-colors border-b-1 border-black-10 duration-300">
-      <div className="flex items-center gap-4">
+    <nav className="h-[68px] sticky bg-background border-b py-5 px-2 lg:px-7 flex items-center justify-between gap-2 transition-all duration-500">
+      <div className="flex items-center gap-2">
+        <div className="flex items-center gap-[1px]">
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
@@ -60,6 +62,7 @@ const Header = () => {
             <p>Favorites</p>
           </TooltipContent>
         </Tooltip>
+        </div>
 
         <Breadcrumb>
           <BreadcrumbList>
@@ -86,17 +89,8 @@ const Header = () => {
         </Breadcrumb>
       </div>
 
-      <div className="flex items-center gap-2">
-        <div className="relative mr-2">
-          <div
-            className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm text-muted-foreground w-48 transition-colors duration-300"
-            style={{ background: 'var(--black-5)' }}
-          >
-            <Search className="h-4 w-4" />
-            <span>Search</span>
-            <span className="ml-auto text-xs opacity-60">⌘/</span>
-          </div>
-        </div>
+      <div className="flex items-center gap-[1px]">
+        <SearchBar />
 
         <Tooltip>
           <TooltipTrigger asChild>
@@ -151,7 +145,7 @@ const Header = () => {
           </TooltipContent>
         </Tooltip>
       </div>
-    </header>
+    </nav>
   )
 }
 

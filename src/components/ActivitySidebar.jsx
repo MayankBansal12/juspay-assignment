@@ -4,7 +4,7 @@ import { Sidebar, SidebarContent, SidebarHeader } from '@/components/ui/sidebar'
 
 const ActivitySidebar = () => {
     return (
-        <Sidebar side="right" collapsible="offcanvas" className="border-l bg-background">
+        <Sidebar side="right" collapsible="offcanvas" className="bg-background flex flex-col h-full border-l transition-all duration-300 overflow-y-auto">
             <SidebarHeader className="p-4 border-b">
                 <h3 className="font-semibold flex items-center gap-2">
                     <Bell className="h-4 w-4" />
@@ -14,7 +14,7 @@ const ActivitySidebar = () => {
             <SidebarContent>
                 <div className="p-4 space-y-4">
                     <motion.div
-                        whileHover={{ scale: 1.02, backgroundColor: 'hsl(var(--secondary))' }}
+                        whileHover={{ scale: 1.02, backgroundColor: 'hsla(var(--secondary))' }}
                         className="flex gap-3 items-start p-3 rounded-lg bg-secondary/50 cursor-pointer transition-colors"
                     >
                         <div className="mt-1 bg-background p-1.5 rounded-full shadow-sm">
@@ -27,7 +27,7 @@ const ActivitySidebar = () => {
                     </motion.div>
 
                     <motion.div
-                        whileHover={{ scale: 1.02, backgroundColor: 'hsl(var(--secondary))' }}
+                        whileHover={{ scale: 1.02, backgroundColor: 'hsla(var(--secondary))' }}
                         className="flex gap-3 items-start p-3 rounded-lg bg-secondary/50 cursor-pointer transition-colors"
                     >
                         <div className="mt-1 bg-background p-1.5 rounded-full shadow-sm">
@@ -40,7 +40,7 @@ const ActivitySidebar = () => {
                     </motion.div>
 
                     <motion.div
-                        whileHover={{ scale: 1.02, backgroundColor: 'hsl(var(--secondary))' }}
+                        whileHover={{ scale: 1.02, backgroundColor: 'hsla(var(--secondary))' }}
                         className="flex gap-3 items-start p-3 rounded-lg bg-secondary/50 cursor-pointer transition-colors"
                     >
                         <div className="mt-1 bg-background p-1.5 rounded-full shadow-sm">

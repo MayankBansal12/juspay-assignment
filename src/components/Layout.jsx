@@ -12,7 +12,6 @@ const Layout = () => {
     <div 
       className="flex min-h-svh w-full"
       style={{
-        '--sidebar-width': '212px',
         '--sidebar-width-icon': '3rem',
       }}
     >
@@ -22,6 +21,7 @@ const Layout = () => {
         keyboardShortcut="b"
         keyboardModifiers={{ ctrl: true, meta: true, alt: false, shift: false }}
         noWrapper={true}
+        width="212px"
       >
         <LeftSidebar />
       </SidebarProvider>
@@ -37,6 +37,7 @@ const Layout = () => {
         keyboardShortcut="b"
         keyboardModifiers={{ ctrl: true, meta: true, alt: true, shift: false }}
         noWrapper={true}
+        width="280px"
       >
         <ActivitySidebar />
       </SidebarProvider>

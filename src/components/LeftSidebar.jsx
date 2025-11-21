@@ -39,7 +39,7 @@ const dashboards = [
     { name: 'Order List', icon: ShoppingCart, path: '/dashboard/order-list' },
     { name: 'eCommerce', icon: ShoppingBag, path: '/dashboard/ecommerce' },
     { name: 'Projects', icon: Folder, path: '/dashboard/projects' },
-    { name: 'Online Courses', icon: BookOpen, path: '/dashboard/courses' },
+    { name: 'Online Course', icon: BookOpen, path: '/dashboard/courses' },
 ]
 
 const pages = [
@@ -83,7 +83,7 @@ const LeftSidebar = () => {
     }
 
     return (
-        <Sidebar collapsible="offcanvas" className="flex flex-col h-full w-[212px] border-r bg-background transition-all duration-300 overflow-y-auto">
+        <Sidebar collapsible="offcanvas" className="bg-background flex flex-col h-full border-r transition-all duration-300 overflow-y-auto">
             <SidebarHeader className="p-4">
                 <div className="flex items-center gap-3 overflow-hidden">
                     <Avatar className="h-8 w-8 shrink-0">
@@ -175,7 +175,6 @@ const LeftSidebar = () => {
                             <Collapsible
                                 key={item.name}
                                 asChild
-                                // defaultOpen={item.name === 'User Profile'}
                                 className="group/collapsible"
                             >
                                 <SidebarMenuItem>
