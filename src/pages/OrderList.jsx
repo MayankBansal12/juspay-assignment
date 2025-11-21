@@ -1,9 +1,13 @@
+import { DataTable } from "@/components/orders-table/data-table"
+import { orders } from "@/lib/mocks/orders"
 
 const OrderList = () => {
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-semibold mb-4">Order List</h1>
-      <p className="text-muted-foreground">Order list content goes here.</p>
+      <div className="mb-6">
+        <h1 className="text-2xl font-semibold mb-4">Order List</h1>
+      </div>
+      <DataTable data={orders} />
     </div>
   )
 }
