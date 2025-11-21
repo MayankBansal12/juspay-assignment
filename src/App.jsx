@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { useStore } from '@/store/useStore'
-import { SidebarProvider } from '@/components/ui/sidebar'
 import Layout from '@/components/Layout'
 import DashboardDefault from '@/pages/DashboardDefault'
 import OrderList from '@/pages/OrderList'
@@ -19,24 +18,22 @@ function App() {
   }, [theme])
 
   return (
-    <SidebarProvider>
-      <TooltipProvider>
-        <Router>
-          <Routes>
-            <Route path="/" element={<Navigate to="/dashboard/default" replace />} />
-            <Route path="/dashboard" element={<Layout />}>
-              <Route path="default" element={<DashboardDefault />} />
-              <Route path="order-list" element={<OrderList />} />
-              <Route index element={<Navigate to="/dashboard/default" replace />} />
-              <Route
-                path="*"
-                element={<ComingSoon />}
-              />
-            </Route>
-          </Routes>
-        </Router>
-      </TooltipProvider>
-    </SidebarProvider>
+    <TooltipProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Navigate to="/dashboard/default" replace />} />
+          <Route path="/dashboard" element={<Layout />}>
+            <Route path="default" element={<DashboardDefault />} />
+            <Route path="order-list" element={<OrderList />} />
+            <Route index element={<Navigate to="/dashboard/default" replace />} />
+            <Route
+              path="*"
+              element={<ComingSoon />}
+            />
+          </Route>
+        </Routes>
+      </Router>
+    </TooltipProvider>
   )
 }
 

@@ -42,6 +42,9 @@ const SidebarProvider = React.forwardRef(
       defaultOpen = true,
       open: openProp,
       onOpenChange: setOpenProp,
+      keyboardShortcut = SIDEBAR_KEYBOARD_SHORTCUT,
+      keyboardModifiers = { ctrl: true, meta: true, alt: false, shift: false },
+      noWrapper = false,
       className,
       style,
       children,
@@ -71,23 +74,44 @@ const SidebarProvider = React.forwardRef(
       [setOpenProp, open]
     )
 
+    React.useEffect(() => {
+      if (isMobile) {
+        setOpenMobile(open)
+      }
+    }, [isMobile, open])
+
     // Helper to toggle the sidebar.
     const toggleSidebar = React.useCallback(() => {
-      return isMobile ? setOpenMobile((open) => !open) : setOpen((open) => !open)
-    }, [isMobile, setOpen, setOpenMobile])
+      setOpen((open) => !open)
+    }, [setOpen])
 
     // Adds a keyboard shortcut to toggle the sidebar.
     React.useEffect(() => {
+      if (!keyboardShortcut) return
+
       const handleKeyDown = (event) => {
-        if (event.key === SIDEBAR_KEYBOARD_SHORTCUT && (event.metaKey || event.ctrlKey)) {
-          event.preventDefault()
-          toggleSidebar()
+        if (event.key.toLowerCase() !== keyboardShortcut.toLowerCase()) {
+          return
         }
+
+        const hasCtrlOrMeta = event.ctrlKey || event.metaKey
+        const wantsCtrlOrMeta = keyboardModifiers.ctrl || keyboardModifiers.meta
+        if (wantsCtrlOrMeta && !hasCtrlOrMeta) return
+        if (!wantsCtrlOrMeta && hasCtrlOrMeta) return
+
+        if (keyboardModifiers.alt && !event.altKey) return
+        if (!keyboardModifiers.alt && event.altKey) return
+
+        if (keyboardModifiers.shift && !event.shiftKey) return
+        if (!keyboardModifiers.shift && event.shiftKey) return
+
+        event.preventDefault()
+        toggleSidebar()
       }
 
       window.addEventListener('keydown', handleKeyDown)
       return () => window.removeEventListener('keydown', handleKeyDown)
-    }, [toggleSidebar])
+    }, [toggleSidebar, keyboardShortcut, keyboardModifiers])
 
     // We add a state so that we can do data-state="expanded" or "collapsed".
     // This makes it easier to style the sidebar with Tailwind classes.
@@ -106,9 +130,11 @@ const SidebarProvider = React.forwardRef(
       [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar]
     )
 
-    return (
-      <SidebarContext.Provider value={contextValue}>
-        <TooltipProvider delayDuration={0}>
+    const content = (
+      <TooltipProvider delayDuration={0}>
+        {noWrapper ? (
+          children
+        ) : (
           <div
             style={{
               '--sidebar-width': SIDEBAR_WIDTH,
@@ -124,7 +150,13 @@ const SidebarProvider = React.forwardRef(
           >
             {children}
           </div>
-        </TooltipProvider>
+        )}
+      </TooltipProvider>
+    )
+
+    return (
+      <SidebarContext.Provider value={contextValue}>
+        {content}
       </SidebarContext.Provider>
     )
   }

@@ -1,12 +1,10 @@
-import { useStore } from '@/store/useStore'
 import { motion } from 'motion/react'
 import { Bug, User, Bell } from 'lucide-react'
 import { Sidebar, SidebarContent, SidebarHeader } from '@/components/ui/sidebar'
 
 const ActivitySidebar = () => {
-    const { isActivitySidebarOpen } = useStore()
     return (
-        <Sidebar side="right" collapsible="offcanvas" open={isActivitySidebarOpen} className="border-l bg-background">
+        <Sidebar side="right" collapsible="offcanvas" className="border-l bg-background">
             <SidebarHeader className="p-4 border-b">
                 <h3 className="font-semibold flex items-center gap-2">
                     <Bell className="h-4 w-4" />

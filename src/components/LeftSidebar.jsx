@@ -15,7 +15,6 @@ import {
 } from '@/components/ui/sidebar'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
-import { useStore } from '@/store/useStore'
 import {
     BookOpen,
     ChevronRight,
@@ -83,10 +82,8 @@ const LeftSidebar = () => {
         }
     }
 
-    const { isLeftSidebarOpen } = useStore()
-
     return (
-        <Sidebar collapsible="offcanvas" open={isLeftSidebarOpen} className="flex flex-col h-full w-[212px] border-r bg-background transition-all duration-300 overflow-y-auto">
+        <Sidebar collapsible="offcanvas" className="flex flex-col h-full w-[212px] border-r bg-background transition-all duration-300 overflow-y-auto">
             <SidebarHeader className="p-4">
                 <div className="flex items-center gap-3 overflow-hidden">
                     <Avatar className="h-8 w-8 shrink-0">
