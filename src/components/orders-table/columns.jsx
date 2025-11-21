@@ -11,10 +11,11 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge, BadgeDot } from "@/components/ui/badge"
+import { toast } from "sonner"
 
 const parseDate = (dateStr) => {
   if (!dateStr) return 0
-  
+
   const now = Date.now()
   if (dateStr === "Just now") return now
   if (dateStr === "A minute ago") return now - 60000
@@ -24,10 +25,10 @@ const parseDate = (dateStr) => {
   }
   if (dateStr === "Today") return now
   if (dateStr === "Yesterday") return now - 86400000
-  
+
   const parsed = Date.parse(dateStr)
   if (!isNaN(parsed)) return parsed
-  
+
   return 0
 }
 
@@ -201,7 +202,19 @@ export const columns = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(row.original.id)}
+              onClick={() => {
+                toast.promise(
+                  () => new Promise((resolve) =>
+                    setTimeout(() => resolve(), 500)
+                  ),
+                  {
+                    loading: "Copying...",
+                    success: "Order ID has been copied",
+                    error: "Error",
+                  }
+                )
+                navigator.clipboard.writeText(row.original.id)
+              }}
             >
               Copy order ID
             </DropdownMenuItem>

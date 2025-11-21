@@ -1,12 +1,12 @@
-import { useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import { useStore } from '@/store/useStore'
+import { ComingSoon } from '@/components/ComingSoon'
 import Layout from '@/components/Layout'
+import { Toaster } from "@/components/ui/sonner"
+import { TooltipProvider } from '@/components/ui/tooltip'
 import DashboardDefault from '@/pages/DashboardDefault'
 import OrderList from '@/pages/OrderList'
-
-import { TooltipProvider } from '@/components/ui/tooltip'
-import { ComingSoon } from './components/ComingSoon'
+import { useStore } from '@/store/useStore'
+import { useEffect } from 'react'
+import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 
 function App() {
   const theme = useStore((state) => state.theme)
@@ -33,6 +33,7 @@ function App() {
           </Route>
         </Routes>
       </Router>
+      <Toaster />
     </TooltipProvider>
   )
 }

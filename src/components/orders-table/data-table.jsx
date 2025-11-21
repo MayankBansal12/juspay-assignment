@@ -51,7 +51,6 @@ export function DataTable({ data }) {
     },
   })
 
-
   return (
     <div className="space-y-4">
       <DataTableToolbar table={table} />
@@ -105,7 +104,7 @@ export function DataTable({ data }) {
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
+      <div className="flex items-center justify-end space-x-2">
         <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredRowModel().rows.length} of{" "}
           {table.getCoreRowModel().rows.length} row(s) shown.
