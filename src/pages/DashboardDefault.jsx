@@ -48,13 +48,16 @@ const projectionsData = [
 ]
 
 const revenueTrendData = [
-  { month: 'Jan', currentWeek: 10, previousWeek: 15 },
-  { month: 'Feb', currentWeek: 5, previousWeek: 10 },
-  { month: 'Mar', currentWeek: 10, previousWeek: 15 },
-  { month: 'Apr', currentWeek: 8, previousWeek: 12 },
-  { month: 'May', currentWeek: 15, previousWeek: 20 },
-  { month: 'Jun', currentWeek: 20, previousWeek: 25 },
+  { name: 'Jan', prevWeek: 7, currentWeekSolid: 12, currentWeekDotted: null, currentWeek: 12 },
+  { name: 'Feb', prevWeek: 19, currentWeekSolid: 9, currentWeekDotted: null, currentWeek: 9 },
+  { name: 'Mar', prevWeek: 15, currentWeekSolid: 11, currentWeekDotted: null, currentWeek: 11 },
+  { name: 'Apr', prevWeek: 12, currentWeekSolid: 15, currentWeekDotted: 15, currentWeek: 15 },
+  { name: 'May', prevWeek: 10.5, currentWeekSolid: null, currentWeekDotted: 19.5, currentWeek: 19.5 },
+  { name: 'Jun', prevWeek: 22, currentWeekSolid: null, currentWeekDotted: 17.5, currentWeek: 17.5 },
 ]
+
+const totalPrevWeek = revenueTrendData.reduce((sum, item) => sum + (item.prevWeek || 0), 0)
+const totalCurrentWeek = revenueTrendData.reduce((sum, item) => sum + (item.currentWeek || 0), 0)
 
 const locationData = [
   { city: 'New York', revenue: '72K' },
@@ -72,10 +75,10 @@ const topProductsData = [
 ]
 
 const salesData = [
-  { name: 'Direct', value: 300.56, color: '#10b981' },
-  { name: 'Affiliate', value: 135.10, color: '#3b82f6' },
-  { name: 'Sponsored', value: 154.02, color: '#8b5cf6' },
-  { name: 'E-mail', value: 48.96, color: '#f59e0b' },
+  { name: 'Direct', value: 300.56, color: '#C6C7F8' },
+  { name: 'Affiliate', value: 135.10, color: '#BAEDBD' },
+  { name: 'Sponsored', value: 154.02, color: '#95A4FC' },
+  { name: 'E-mail', value: 48.96, color: '#B1E3FF' },
 ]
 
 const totalSales = salesData.reduce((sum, item) => sum + item.value, 0)
@@ -84,9 +87,39 @@ const salesDataWithPercentage = salesData.map((item) => ({
   percentage: ((item.value / totalSales) * 100).toFixed(1),
 }))
 
-const largestSegment = salesDataWithPercentage.reduce((max, item) =>
-  parseFloat(item.percentage) > parseFloat(max.percentage) ? item : max
-)
+const RevenueTooltip = ({ active, payload, label }) => {
+  if (active && payload && payload.length) {
+    const dataPoint = payload[0]?.payload
+    const prevWeekValue = dataPoint?.prevWeek
+    const currentWeekValue = dataPoint?.currentWeek ?? dataPoint?.currentWeekSolid ?? dataPoint?.currentWeekDotted
+
+    return (
+      <div
+        style={{
+          backgroundColor: 'hsl(var(--secondary))',
+          border: '1px solid hsl(var(--border))',
+          fontSize: '12px',
+          fontWeight: 'bold',
+          borderRadius: '8px',
+          padding: '8px',
+        }}
+      >
+        <p style={{ color: 'hsl(var(--muted-foreground))', marginBottom: '4px' }}>{label}</p>
+        {prevWeekValue !== null && prevWeekValue !== undefined && (
+          <p style={{ color: 'hsl(var(--muted-foreground))' }}>
+            Previous Week: {prevWeekValue}M
+          </p>
+        )}
+        {currentWeekValue !== null && currentWeekValue !== undefined && (
+          <p style={{ color: 'hsl(var(--muted-foreground))' }}>
+            Current Week: {currentWeekValue}M
+          </p>
+        )}
+      </div>
+    )
+  }
+  return null
+}
 
 const DashboardDefault = () => {
   return (
@@ -101,7 +134,7 @@ const DashboardDefault = () => {
                   className={`
                     ${kpi.bgColor ?? 'bg-secondary'}
                     ${kpi.textColor ?? 'text-foreground'}
-                    rounded-lg h-[115px] p-4 lg:p-6 flex flex-col gap-2 cursor-default
+                    rounded-lg h-fit md:h-[115px] p-4 lg:p-6 flex flex-col gap-2 overflow-hidden cursor-default
                   `}
                 >
                   <p className="text-sm font-semibold">{kpi.title}</p>
@@ -127,7 +160,7 @@ const DashboardDefault = () => {
           ))}
         </div>
 
-        <div className="bg-secondary h-[252px] flex flex-col gap-4 rounded-lg p-4 lg:p-6">
+        <div className="bg-secondary h-fit md:h-[252px] flex flex-col gap-4 rounded-lg p-4 lg:p-6">
           <h2 className="text-sm font-semibold">Projections vs Actuals</h2>
           <ResponsiveContainer width="100%" height={180}>
             <BarChart data={projectionsData}>
@@ -163,10 +196,11 @@ const DashboardDefault = () => {
                   borderRadius: '8px',
                 }}
                 labelStyle={{ color: 'hsl(var(--muted-foreground))' }}
+                itemStyle={{ color: 'hsl(var(--muted-foreground))' }}
               />
               <Legend
                 formatter={(value) => (
-                  <span className="text-sm text-muted-foreground px-0 sm:px-1">{value}</span>
+                  <span className="text-sm text-muted-foreground px-0 lg:px-1">{value}</span>
                 )}
               />
               <Bar
@@ -191,50 +225,82 @@ const DashboardDefault = () => {
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
-        <div className="bg-secondary flex flex-col gap-4 rounded-lg p-4 xl:col-span-3">
-          <h2 className="text-md font-semibold mb-4">Revenue</h2>
-          <ResponsiveContainer width="100%" height={300}>
+        <div className="bg-secondary h-fit md:h-[318px] flex flex-col gap-4 rounded-lg p-4 lg:p-6 xl:col-span-3">
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <h2 className="text-sm font-semibold">Revenue</h2>
+            <div className="flex items-center gap-4 flex-wrap">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-primary"></div>
+                <span className="text-xs text-muted-foreground">
+                  Current Week <span className="text-primary font-semibold">${(totalCurrentWeek * 1000000).toLocaleString()}</span>
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-[hsl(var(--line-chart))]"></div>
+                <span className="text-xs text-muted-foreground">
+                  Previous Week <span className="text-primary font-semibold">${(totalPrevWeek * 1000000).toLocaleString()}</span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <ResponsiveContainer width="100%" height={250}>
             <LineChart data={revenueTrendData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-              <XAxis
-                dataKey="month"
+              <CartesianGrid
+                strokeDasharray=""
                 stroke="hsl(var(--muted-foreground))"
+                vertical={false}
+              />
+              <XAxis
+                dataKey="name"
+                stroke="hsl(var(--muted-foreground))"
+                tickLine={false}
+                axisLine={false}
                 style={{ fontSize: '12px' }}
               />
               <YAxis
+                width={32}
+                ticks={[0, 10, 20, 30]}
+                domain={[0, 30]}
                 stroke="hsl(var(--muted-foreground))"
+                strokeOpacity={1}
                 style={{ fontSize: '12px' }}
-                tickFormatter={(value) => `${value}M`}
+                tickFormatter={(v) => `${v}M`}
+                tickLine={false}
+                axisLine={false}
               />
               <RechartsTooltip
-                contentStyle={{
-                  backgroundColor: 'hsl(var(--background))',
-                  border: '1px solid hsl(var(--border))',
-                  fontSize: '12px',
-                  borderRadius: '8px',
-                }}
-              />
-              <Legend />
-              <Line
-                type="monotone"
-                dataKey="currentWeek"
-                stroke="#a8c5da"
-                strokeWidth={2}
-                name="Current Week $50,211"
-                dot={{ fill: '#a8c5da', r: 4 }}
+                cursor={false}
+                content={<RevenueTooltip />}
               />
               <Line
                 type="monotone"
-                dataKey="previousWeek"
-                stroke="#a8c5da"
-                strokeWidth={2}
-                strokeDasharray="5 5"
-                name="Previous Week $68,768"
-                dot={{ fill: '#a8c5da', r: 4 }}
+                dataKey="prevWeek"
+                name="Previous Week"
+                stroke="hsl(var(--line-chart))"
+                strokeWidth={3}
+                dot={false}
+              />
+              <Line
+                type="monotone"
+                dataKey="currentWeekSolid"
+                stroke="hsl(var(--primary))"
+                strokeWidth={3}
+                dot={false}
+                connectNulls={true}
+              />
+              <Line
+                type="monotone"
+                dataKey="currentWeekDotted"
+                stroke="hsl(var(--primary))"
+                strokeWidth={3}
+                strokeDasharray="8 5"
+                dot={false}
+                connectNulls={true}
               />
             </LineChart>
           </ResponsiveContainer>
         </div>
+
         <div className="bg-secondary p-4 sm:p-6 rounded-lg flex flex-col gap-4 justify-start">
           <h2 className="text-md font-semibold mb-4">Revenue by Location</h2>
           <div className="flex flex-col gap-4">
@@ -287,19 +353,19 @@ const DashboardDefault = () => {
           </div>
         </div>
 
-        <div className="bg-secondary p-4 sm:p-6 rounded-lg flex flex-col gap-4 justify-start">
-          <h2 className="text-md font-semibold mb-4">Total Sales</h2>
+        <div className="bg-secondary p-4 lg:p-6 rounded-lg flex flex-col gap-4 justify-start">
+          <h2 className="text-sm font-semibold">Total Sales</h2>
           <div className="flex flex-col items-center gap-6">
-            <div className="relative w-full max-w-[250px]">
-              <ResponsiveContainer width="100%" height={250}>
+            <div className="relative w-full">
+              <ResponsiveContainer height={150}>
                 <PieChart>
                   <Pie
                     data={salesDataWithPercentage}
                     cx="50%"
                     cy="50%"
-                    innerRadius={60}
-                    outerRadius={100}
-                    paddingAngle={2}
+                    innerRadius={50}
+                    outerRadius={70}
+                    paddingAngle={8}
                     dataKey="value"
                   >
                     {salesDataWithPercentage.map((entry, index) => (
@@ -308,31 +374,38 @@ const DashboardDefault = () => {
                   </Pie>
                   <RechartsTooltip
                     contentStyle={{
-                      backgroundColor: 'hsl(var(--popover))',
+                      backgroundColor: 'hsl(var(--secondary))',
                       border: '1px solid hsl(var(--border))',
+                      fontSize: '12px',
+                      fontWeight: 'bold',
                       borderRadius: '8px',
                     }}
-                    formatter={(value) => `$${value.toFixed(2)}`}
+                    formatter={(value, name) => {
+                      const dataEntry = salesDataWithPercentage.find(
+                        (entry) => entry.name === name && entry.value === value
+                      );
+                      if (dataEntry && dataEntry.percentage) {
+                        return [`${dataEntry.name}: ${dataEntry.percentage}%`];
+                      }
+                      return [`${name}: $${value.toFixed(2)}`];
+                    }}
+                    labelStyle={{ color: 'hsl(var(--muted-foreground))' }}
+                    itemStyle={{ color: 'hsl(var(--muted-foreground))' }}
                   />
                 </PieChart>
               </ResponsiveContainer>
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="text-center">
-                  <p className="text-2xl font-semibold">{largestSegment?.percentage}%</p>
-                </div>
-              </div>
             </div>
-            <div className="space-y-2 w-full lg:w-auto">
+            <div className="space-y-2">
               {salesDataWithPercentage.map((item, index) => (
                 <div key={index} className="flex items-center justify-between gap-4">
                   <div className="flex items-center gap-2">
                     <div
-                      className="w-3 h-3 rounded-full"
+                      className="w-2 h-2 rounded-full"
                       style={{ backgroundColor: item.color }}
                     />
-                    <span className="text-md text-muted-foreground">{item.name}</span>
+                    <span className="text-xs text-muted-foreground">{item.name}</span>
                   </div>
-                  <span className="text-md font-semibold">${item.value.toFixed(2)}</span>
+                  <span className="text-xs font-semibold">${item.value.toFixed(2)}</span>
                 </div>
               ))}
             </div>
