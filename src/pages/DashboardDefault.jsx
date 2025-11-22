@@ -39,10 +39,10 @@ const kpiData = [
 ]
 
 const projectionsData = [
-  { month: 'Jan', projections: 15, actuals: 5 },
+  { month: 'Jan', projections: 14, actuals: 5 },
   { month: 'Feb', projections: 18, actuals: 4 },
-  { month: 'Mar', projections: 15, actuals: 5 },
-  { month: 'Apr', projections: 20, actuals: 3 },
+  { month: 'Mar', projections: 15, actuals: 6 },
+  { month: 'Apr', projections: 16, actuals: 5 },
   { month: 'May', projections: 12, actuals: 5 },
   { month: 'Jun', projections: 18, actuals: 4 },
 ]
@@ -92,7 +92,6 @@ const DashboardDefault = () => {
   return (
     <div className="p-4 space-y-6">
       <h1 className="font-semibold mb-4">eCommerce</h1>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {kpiData.map((kpi) => (
@@ -128,31 +127,64 @@ const DashboardDefault = () => {
           ))}
         </div>
 
-        <div className="bg-secondary h-[252px] flex flex-col gap-4 rounded-lg p-4">
-          <h2 className="text-md font-semibold">Projections vs Actuals</h2>
+        <div className="bg-secondary h-[252px] flex flex-col gap-4 rounded-lg p-4 lg:p-6">
+          <h2 className="text-sm font-semibold">Projections vs Actuals</h2>
           <ResponsiveContainer width="100%" height={180}>
             <BarChart data={projectionsData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+              <CartesianGrid
+                strokeDasharray=""
+                stroke="hsl(var(--muted-foreground))"
+                vertical={false}
+              />
               <XAxis
                 dataKey="month"
                 stroke="hsl(var(--muted-foreground))"
+                tickLine={false}
                 style={{ fontSize: '12px' }}
               />
               <YAxis
+                width={32}
+                ticks={[0, 10, 20, 30]}
+                domain={[0, 30]}
                 stroke="hsl(var(--muted-foreground))"
+                strokeOpacity={1}
                 style={{ fontSize: '12px' }}
-                tickFormatter={(value) => `${value}M`}
+                tickFormatter={(v) => `${v}M`}
+                tickLine={false}
+                axisLine={false}
               />
               <RechartsTooltip
+                cursor={false}
                 contentStyle={{
                   backgroundColor: 'hsl(var(--secondary))',
                   border: '1px solid hsl(var(--border))',
+                  fontSize: '12px',
+                  fontWeight: 'bold',
                   borderRadius: '8px',
                 }}
+                labelStyle={{ color: 'hsl(var(--muted-foreground))' }}
               />
-              <Legend />
-              <Bar dataKey="projections" stackId="a" fill="#a8c5da" name="Projections" />
-              <Bar dataKey="actuals" stackId="a" fill="#677580" name="Actuals" />
+              <Legend
+                formatter={(value) => (
+                  <span className="text-sm text-muted-foreground px-0 sm:px-1">{value}</span>
+                )}
+              />
+              <Bar
+                dataKey="projections"
+                name="Projections"
+                stackId="a"
+                radius={[0, 0, 0, 0]}
+                barSize={20}
+                fill="hsl(var(--chart-1))"
+              />
+              <Bar
+                dataKey="actuals"
+                name="Actuals"
+                stackId="a"
+                radius={[4, 4, 0, 0]}
+                barSize={20}
+                fill="hsl(var(--chart-2))"
+              />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -176,8 +208,9 @@ const DashboardDefault = () => {
               />
               <RechartsTooltip
                 contentStyle={{
-                  backgroundColor: 'hsl(var(--popover))',
+                  backgroundColor: 'hsl(var(--background))',
                   border: '1px solid hsl(var(--border))',
+                  fontSize: '12px',
                   borderRadius: '8px',
                 }}
               />
