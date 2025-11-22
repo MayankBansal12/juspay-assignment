@@ -23,6 +23,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
+import mapImage from "@/assets/Map.svg"
 
 const kpiData = [
   {
@@ -60,10 +61,10 @@ const totalPrevWeek = revenueTrendData.reduce((sum, item) => sum + (item.prevWee
 const totalCurrentWeek = revenueTrendData.reduce((sum, item) => sum + (item.currentWeek || 0), 0)
 
 const locationData = [
-  { city: 'New York', revenue: '72K' },
-  { city: 'San Francisco', revenue: '39K' },
-  { city: 'Sydney', revenue: '25K' },
-  { city: 'Singapore', revenue: '61K' },
+  { city: 'New York', revenue: '72K', percentage: '72' },
+  { city: 'San Francisco', revenue: '39K', percentage: '39' },
+  { city: 'Sydney', revenue: '25K', percentage: '25' },
+  { city: 'Singapore', revenue: '61K', percentage: '61' },
 ]
 
 const topProductsData = [
@@ -256,11 +257,13 @@ const DashboardDefault = () => {
                 tickLine={false}
                 axisLine={false}
                 style={{ fontSize: '12px' }}
+                dy={5}
               />
               <YAxis
                 width={32}
                 ticks={[0, 10, 20, 30]}
                 domain={[0, 30]}
+                dx={-5}
                 stroke="hsl(var(--muted-foreground))"
                 strokeOpacity={1}
                 style={{ fontSize: '12px' }}
@@ -301,24 +304,28 @@ const DashboardDefault = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-secondary p-4 sm:p-6 rounded-lg flex flex-col gap-4 justify-start">
-          <h2 className="text-md font-semibold mb-4">Revenue by Location</h2>
-          <div className="flex flex-col gap-4">
-            <div className="flex-1 h-48 bg-muted rounded-lg flex items-center justify-center border border-border">
-              <div className="text-center text-muted-foreground">
-                <p className="text-sm">World Map</p>
-                <p className="text-xs mt-1">Location visualization</p>
-              </div>
-            </div>
+        <div className="bg-secondary p-4 lg:p-6 rounded-lg flex flex-col gap-4">
+          <h2 className="text-sm font-semibold">Revenue by Location</h2>
+          <div className="flex flex-col gap-4 items-between">
+            <img src={mapImage} className="max-h-[100px]" alt="map" />
 
-            <div className="space-y-3 lg:w-48">
+            <div className="space-y-4">
               {locationData.map((location) => (
-                <div key={location.city} className="flex justify-between items-center">
-                  <span className="text-md text-foreground">{location.city}</span>
-                  <div className="relative h-[2px] bg-white/10 rounded-full overflow-hidden">
-                    <div className="absolute top-0 left-0 h-full rounded-full transition-all duration-100 ease-out"></div>
+                <div key={location.city} className="flex flex-col gap-1">
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs text-foreground">{location.city}</span>
+                    <span className="text-xs font-semibold">{location.revenue}</span>
                   </div>
-                  <span className="text-md font-semibold">{location.revenue}</span>
+                  <div className="w-full bg-primary/10 dark:bg-primary/30 rounded-full h-1">
+                    <div
+                      className="bg-[hsl(var(--chart-1))] h-1 rounded-full transition-all duration-500 ease-out"
+                      style={{ width: `${location.percentage}%` }}
+                      aria-valuenow={location.revenue}
+                      aria-valuemin={0}
+                      aria-valuemax={100}
+                      role="progressbar"
+                    ></div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -327,25 +334,25 @@ const DashboardDefault = () => {
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
-        <div className="bg-secondary flex flex-col gap-4 rounded-lg p-6 xl:col-span-3">
-          <h2 className="text-md font-semibold mb-4">Top Selling Products</h2>
-          <div className="overflow-x-auto">
+        <div className="bg-secondary flex flex-col gap-4 rounded-lg p-4 lg:p-6 xl:col-span-3">
+          <h2 className="text-sm font-semibold">Top Selling Products</h2>
+          <div className="overflow-x-auto w-full">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-md">Name</TableHead>
-                  <TableHead className="text-md">Price</TableHead>
-                  <TableHead className="text-md">Quantity</TableHead>
-                  <TableHead className="text-md">Amount</TableHead>
+                  <TableHead className="text-sm font-semibold">Name</TableHead>
+                  <TableHead className="text-sm font-semibold">Price</TableHead>
+                  <TableHead className="text-sm font-semibold">Quantity</TableHead>
+                  <TableHead className="text-sm font-semibold">Amount</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {topProductsData.map((product, index) => (
-                  <TableRow key={index}>
-                    <TableCell className="text-md">{product.name}</TableCell>
-                    <TableCell className="text-md">{product.price}</TableCell>
-                    <TableCell className="text-md">{product.quantity}</TableCell>
-                    <TableCell className="text-md">{product.amount}</TableCell>
+                  <TableRow key={index} className="!rounded-md cursor-pointer hover:bg-secondary">
+                    <TableCell className="text-xs">{product.name}</TableCell>
+                    <TableCell className="text-xs">{product.price}</TableCell>
+                    <TableCell className="text-xs">{product.quantity}</TableCell>
+                    <TableCell className="text-xs">{product.amount}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
