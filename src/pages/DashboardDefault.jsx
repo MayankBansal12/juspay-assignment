@@ -7,6 +7,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { TrendingDown, TrendingUp } from 'lucide-react'
 import {
   Bar,
   BarChart,
@@ -24,10 +25,17 @@ import {
 } from 'recharts'
 
 const kpiData = [
-  { title: 'Customers', value: '3,781', change: '+11.01%', isPositive: true },
+  {
+    title: 'Customers', value: '3,781', change: '+11.01%', isPositive: true, bgColor: 'bg-card',
+    textColor: 'text-[var(--black-100)]'
+  },
   { title: 'Orders', value: '1,219', change: '-0.03%', isPositive: false },
   { title: 'Revenue', value: '$695', change: '+15.03%', isPositive: true },
-  { title: 'Growth', value: '30.1%', change: '+6.08%', isPositive: true },
+  {
+    title: 'Growth', value: '30.1%', change: '+6.08%', isPositive: true,
+    bgColor: 'bg-card-foreground',
+    textColor: 'text-[var(--black-100)]'
+  },
 ]
 
 const projectionsData = [
@@ -86,24 +94,40 @@ const DashboardDefault = () => {
       <h1 className="font-semibold mb-4">eCommerce</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {kpiData.map((kpi) => (
             <Tooltip key={kpi.title}>
               <TooltipTrigger asChild>
-                <div className="bg-secondary rounded-lg h-[115px] p-4 lg:p-6">
-                  <p className="text-md mb-2">{kpi.title}</p>
-                  <p className="text-2xl font-semibold mb-1">{kpi.value}</p>
-                  <p className="text-xs">
-                    {kpi.change}
-                  </p>
+                <div
+                  className={`
+                    ${kpi.bgColor ?? 'bg-secondary'}
+                    ${kpi.textColor ?? 'text-foreground'}
+                    rounded-lg h-[115px] p-4 lg:p-6 flex flex-col gap-2 cursor-default
+                  `}
+                >
+                  <p className="text-sm font-semibold">{kpi.title}</p>
+
+                  <div className="flex justify-between items-center gap-4">
+                    <p className="text-2xl font-semibold">{kpi.value}</p>
+                    <p className="text-xs flex items-center gap-1">
+                      <span>{kpi.change}</span>
+                      {!!kpi.isPositive ? (
+                        <TrendingUp className="h-4 w-4" />
+                      ) : (
+                        <TrendingDown className="h-4 w-4 rotate-[105deg]" />
+                      )}
+                    </p>
+                  </div>
                 </div>
               </TooltipTrigger>
+
               <TooltipContent>
                 <p>{kpi.title}: {kpi.value}</p>
               </TooltipContent>
             </Tooltip>
           ))}
         </div>
+
         <div className="bg-secondary h-[252px] flex flex-col gap-4 rounded-lg p-4">
           <h2 className="text-md font-semibold">Projections vs Actuals</h2>
           <ResponsiveContainer width="100%" height={180}>
