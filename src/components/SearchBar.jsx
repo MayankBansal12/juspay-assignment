@@ -3,7 +3,7 @@ import { Kbd } from "./ui/kbd"
 
 export function SearchBar() {
   return (
-    <div className="bg-secondary px-2 mr-2 text-muted-foreground rounded-md text-sm gap-2 flex justify-center items-center h-[32px]">
+    <div className="bg-secondary px-2 mr-2 text-muted-foreground rounded-md text-sm gap-2 hidden md:flex justify-center items-center h-[32px]">
       <Search className="h-4 w-4" />
       <input
         type="text"

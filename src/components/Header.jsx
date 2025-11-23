@@ -8,6 +8,7 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
 import { Button } from '@/components/ui/button'
+import { Kbd } from '@/components/ui/kbd'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { useStore } from '@/store/useStore'
 import { Bell, History, Moon, PanelLeft, PanelRight, Star, Sun } from 'lucide-react'
@@ -36,32 +37,33 @@ const Header = () => {
     <nav className="h-[68px] sticky bg-background border-b py-5 px-2 lg:px-7 flex items-center justify-between gap-2 transition-all duration-500">
       <div className="flex items-center gap-2">
         <div className="flex items-center gap-[1px]">
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleLeftSidebar}
-              className={isLeftSidebarOpen ? '' : 'text-muted-foreground'}
-            >
-              <PanelLeft className="h-5 w-5" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>{isLeftSidebarOpen ? 'Hide Sidebar' : 'Open Sidebar'}</p>
-          </TooltipContent>
-        </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleLeftSidebar}
+                className={isLeftSidebarOpen ? '' : 'text-muted-foreground'}
+              >
+                <PanelLeft className="h-5 w-5" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{isLeftSidebarOpen ? 'Hide Sidebar' : 'Open Sidebar'}</p>
+              <Kbd className="bg-primary">Ctrl + b</Kbd>
+            </TooltipContent>
+          </Tooltip>
 
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button variant="ghost" size="icon">
-              <Star className="h-5 w-5" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Favorites</p>
-          </TooltipContent>
-        </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button variant="ghost" size="icon" className="hidden sm:flex">
+                <Star className="h-5 w-5" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Favorites</p>
+            </TooltipContent>
+          </Tooltip>
         </div>
 
         <Breadcrumb>
@@ -109,7 +111,7 @@ const Header = () => {
 
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" className="hidden sm:flex">
               <History className="h-5 w-5" />
             </Button>
           </TooltipTrigger>
@@ -120,7 +122,7 @@ const Header = () => {
 
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" className="hidden sm:flex">
               <Bell className="h-5 w-5" />
             </Button>
           </TooltipTrigger>
@@ -141,7 +143,8 @@ const Header = () => {
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>{isActivitySidebarOpen ? 'Hide Sidebar' : 'Open Sidebar'}</p>
+            <p>{isActivitySidebarOpen ? 'Hide Activity Bar' : 'Open Activity Bar'}</p>
+            <Kbd className="bg-primary">Ctrl + Alt + b</Kbd>
           </TooltipContent>
         </Tooltip>
       </div>

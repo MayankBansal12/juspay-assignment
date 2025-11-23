@@ -1,55 +1,133 @@
+import { Sidebar, SidebarContent } from '@/components/ui/sidebar'
+import { activities, contacts, notifications } from '@/lib/mocks/activity'
+import { Bell, Bug, Rss, User } from 'lucide-react'
 import { motion } from 'motion/react'
-import { Bug, User, Bell } from 'lucide-react'
-import { Sidebar, SidebarContent, SidebarHeader } from '@/components/ui/sidebar'
+
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.08,
+        },
+    },
+}
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            duration: 0.3,
+            ease: 'easeOut',
+        },
+    },
+}
+
+const getNotificationIcon = (type) => {
+    switch (type) {
+        case 'bug':
+            return Bug
+        case 'user':
+            return User
+        case 'subscription':
+            return Rss
+        default:
+            return Bell
+    }
+}
 
 const ActivitySidebar = () => {
     return (
         <Sidebar side="right" collapsible="offcanvas" className="bg-background flex flex-col h-full border-l transition-all duration-300 overflow-y-auto">
-            <SidebarHeader className="p-4 border-b">
-                <h3 className="font-semibold flex items-center gap-2">
-                    <Bell className="h-4 w-4" />
-                    <span className="group-data-[collapsible=icon]:hidden">Notifications</span>
-                </h3>
-            </SidebarHeader>
-            <SidebarContent>
-                <div className="p-4 space-y-4">
+            <SidebarContent className="py-7 px-4 space-y-3">
+                <div>
+                    <h3 className="font-semibold text-sm mb-2 px-1 group-data-[collapsible=icon]:hidden">Notifications</h3>
                     <motion.div
-                        whileHover={{ scale: 1.02, backgroundColor: 'hsla(var(--secondary))' }}
-                        className="flex gap-3 items-start p-3 rounded-lg bg-secondary/50 cursor-pointer transition-colors"
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="visible"
+                        className="space-y-1"
                     >
-                        <div className="mt-1 bg-background p-1.5 rounded-full shadow-sm">
-                            <Bug className="h-4 w-4 text-red-500" />
-                        </div>
-                        <div className="flex-1 group-data-[collapsible=icon]:hidden">
-                            <p className="text-sm font-medium">You have a bug that needs attention</p>
-                            <p className="text-xs text-muted-foreground mt-1">Just now</p>
-                        </div>
+                        {notifications.map((notification) => {
+                            const Icon = getNotificationIcon(notification.type)
+                            return (
+                                <motion.div
+                                    key={notification.id}
+                                    variants={itemVariants}
+                                    whileHover={{ backgroundColor: 'hsl(var(--secondary))' }}
+                                    className="flex gap-2 items-start p-2 rounded-md cursor-pointer transition-colors"
+                                >
+                                    <div className="h-6 w-6 bg-card text-[var(--black-100)] rounded-md shadow-sm flex items-center justify-center">
+                                        <Icon className="h-4 w-4" />
+                                    </div>
+                                    <div className="flex-1 min-w-0 group-data-[collapsible=icon]:hidden">
+                                        <p className="text-sm text-foreground truncate">{notification.message}</p>
+                                        <p className="text-xs text-muted-foreground">{notification.timestamp}</p>
+                                    </div>
+                                </motion.div>
+                            )
+                        })}
                     </motion.div>
-
+                </div>
+                <div>
+                    <h3 className="font-semibold text-sm mb-2 px-1 group-data-[collapsible=icon]:hidden">Activities</h3>
                     <motion.div
-                        whileHover={{ scale: 1.02, backgroundColor: 'hsla(var(--secondary))' }}
-                        className="flex gap-3 items-start p-3 rounded-lg bg-secondary/50 cursor-pointer transition-colors"
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="visible"
+                        className="space-y-1 group-data-[collapsible=icon]:hidden"
                     >
-                        <div className="mt-1 bg-background p-1.5 rounded-full shadow-sm">
-                            <User className="h-4 w-4 text-blue-500" />
-                        </div>
-                        <div className="flex-1 group-data-[collapsible=icon]:hidden">
-                            <p className="text-sm font-medium">New user registered</p>
-                            <p className="text-xs text-muted-foreground mt-1">5 mins ago</p>
-                        </div>
+                        {activities.map((activity) => (
+                            <motion.div
+                                key={activity.id}
+                                variants={itemVariants}
+                                whileHover={{ backgroundColor: 'hsl(var(--secondary))' }}
+                                className="flex gap-2 items-start p-2 rounded-md cursor-pointer transition-colors"
+                            >
+                                <div className="h-6 w-6 rounded-full overflow-hidden bg-background border-2 border-background flex-shrink-0">
+                                    <img
+                                        src={activity.user.avatar}
+                                        alt={activity.user.name}
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-sm font-medium text-foreground truncate">{activity.action}</p>
+                                    <p className="text-xs text-muted-foreground">{activity.timestamp}</p>
+                                </div>
+                            </motion.div>
+                        ))}
                     </motion.div>
-
+                </div>
+                <div>
+                    <h3 className="font-semibold text-sm mb-2 px-1 group-data-[collapsible=icon]:hidden">Contacts</h3>
                     <motion.div
-                        whileHover={{ scale: 1.02, backgroundColor: 'hsla(var(--secondary))' }}
-                        className="flex gap-3 items-start p-3 rounded-lg bg-secondary/50 cursor-pointer transition-colors"
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="visible"
+                        className="space-y-1"
                     >
-                        <div className="mt-1 bg-background p-1.5 rounded-full shadow-sm">
-                            <Bell className="h-4 w-4 text-yellow-500" />
-                        </div>
-                        <div className="flex-1 group-data-[collapsible=icon]:hidden">
-                            <p className="text-sm font-medium">System update scheduled</p>
-                            <p className="text-xs text-muted-foreground mt-1">1 hour ago</p>
-                        </div>
+                        {contacts.map((contact) => (
+                            <motion.div
+                                key={contact.id}
+                                variants={itemVariants}
+                                whileHover={{ backgroundColor: 'hsl(var(--secondary))' }}
+                                className="flex gap-2 items-center p-2 rounded-md cursor-pointer transition-colors"
+                            >
+                                <div className="h-6 w-6 rounded-full overflow-hidden bg-background border-2 border-background flex-shrink-0">
+                                    <img
+                                        src={contact.avatar}
+                                        alt={contact.name}
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
+                                <div className="flex-1 min-w-0 group-data-[collapsible=icon]:hidden">
+                                    <p className="text-sm font-medium text-foreground truncate">{contact.name}</p>
+                                </div>
+                            </motion.div>
+                        ))}
                     </motion.div>
                 </div>
             </SidebarContent>

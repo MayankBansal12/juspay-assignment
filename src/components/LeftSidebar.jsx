@@ -98,11 +98,11 @@ const LeftSidebar = () => {
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>
-                    <div className="flex gap-4 text-xs text-muted-foreground mb-2 px-2">
+                    <div className="flex gap-4 text-xs mb-2 px-2">
                         <button
                             onClick={() => setActiveTab('favorites')}
                             className={cn(
-                                'transition-colors hover:text-foreground',
+                                'transition-colors text-muted-foreground',
                                 activeTab === 'favorites' ? 'text-foreground font-medium' : ''
                             )}
                         >
@@ -111,7 +111,7 @@ const LeftSidebar = () => {
                         <button
                             onClick={() => setActiveTab('recently')}
                             className={cn(
-                                'transition-colors hover:text-foreground',
+                                'transition-colors text-muted-foreground',
                                 activeTab === 'recently' ? 'text-foreground font-medium' : ''
                             )}
                         >
@@ -121,9 +121,9 @@ const LeftSidebar = () => {
                     <SidebarMenu>
                         {(activeTab === 'favorites' ? favorites : recently).map((item) => (
                             <SidebarMenuItem key={item}>
-                                <SidebarMenuButton size="sm">
-                                    <Dot className="h-4 w-4 mr-1" />
-                                    <span>{item}</span>
+                                <SidebarMenuButton size="sm" className="flex items-center gap-2 px-2">
+                                    <div className='w-[6px] h-[6px] rounded-full bg-black/20 dark:bg-white/20'></div>
+                                    <span className="text-sm">{item}</span>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                         ))}
@@ -152,7 +152,7 @@ const LeftSidebar = () => {
                                                 )}
                                             >
                                                 {isActive && (
-                                                    <div className="w-1 h-4 bg-foreground rounded-full absolute left-0" />
+                                                    <div className="w-1 h-5 bg-foreground rounded-full absolute left-0" />
                                                 )}
 
                                                 <div className="px-4 flex items-center justify-center gap-1">
