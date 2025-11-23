@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/table'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { TrendingDown, TrendingUp } from 'lucide-react'
+import { motion } from 'motion/react'
 import {
   Bar,
   BarChart,
@@ -103,6 +104,22 @@ const salesDataWithPercentage = salesData.map((item) => ({
   percentage: ((item.value / totalSales) * 100).toFixed(1),
 }))
 
+const fadeInUp = {
+  hidden: { opacity: 0, y: 16 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: 'easeOut' },
+  },
+}
+
+const staggerParent = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
+  },
+}
+
 const RevenueTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     const dataPoint = payload[0]?.payload
@@ -136,14 +153,20 @@ const RevenueTooltip = ({ active, payload, label }) => {
 
 const DashboardDefault = () => {
   return (
-    <div className="p-4 space-y-6">
+    <motion.div
+      className="p-4 space-y-6"
+      initial="hidden"
+      animate="visible"
+      variants={staggerParent}
+    >
       <h1 className="font-semibold mb-4">eCommerce</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-6" variants={staggerParent}>
+        <motion.div className="grid grid-cols-1 sm:grid-cols-2 gap-6" variants={staggerParent}>
           {kpiData.map((kpi) => (
             <Tooltip key={kpi.title}>
               <TooltipTrigger asChild>
-                <div
+                <motion.div
+                  variants={fadeInUp}
                   className={`
                     ${kpi.bgColor ?? 'bg-secondary'}
                     ${kpi.textColor ?? 'text-foreground'}
@@ -163,7 +186,7 @@ const DashboardDefault = () => {
                       )}
                     </p>
                   </div>
-                </div>
+                </motion.div>
               </TooltipTrigger>
 
               <TooltipContent>
@@ -173,9 +196,12 @@ const DashboardDefault = () => {
               </TooltipContent>
             </Tooltip>
           ))}
-        </div>
+        </motion.div>
 
-        <div className="bg-secondary h-fit md:h-[252px] flex flex-col gap-4 rounded-lg p-4 lg:p-6">
+        <motion.div
+          className="bg-secondary h-fit md:h-[252px] flex flex-col gap-4 rounded-lg p-4 lg:p-6"
+          variants={fadeInUp}
+        >
           <h2 className="text-sm font-semibold">Projections vs Actuals</h2>
           <ResponsiveContainer width="100%" height={180}>
             <BarChart data={projectionsData}>
@@ -236,11 +262,14 @@ const DashboardDefault = () => {
               />
             </BarChart>
           </ResponsiveContainer>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
-        <div className="bg-secondary h-fit md:h-[330px] flex flex-col gap-4 rounded-lg p-4 lg:p-6 xl:col-span-3">
+      <motion.div className="grid grid-cols-1 xl:grid-cols-4 gap-6" variants={staggerParent}>
+        <motion.div
+          className="bg-secondary h-fit md:h-[330px] flex flex-col gap-4 rounded-lg p-4 lg:p-6 xl:col-span-3"
+          variants={fadeInUp}
+        >
           <div className="flex items-center justify-between flex-wrap gap-4">
             <h2 className="text-sm font-semibold">Revenue</h2>
             <div className="flex items-center gap-4 flex-wrap">
@@ -319,9 +348,12 @@ const DashboardDefault = () => {
               />
             </LineChart>
           </ResponsiveContainer>
-        </div>
+        </motion.div>
 
-        <div className="bg-secondary p-4 lg:p-6 rounded-lg flex flex-col gap-4">
+        <motion.div
+          className="bg-secondary p-4 lg:p-6 rounded-lg flex flex-col gap-4"
+          variants={fadeInUp}
+        >
           <h2 className="text-sm font-semibold">Revenue by Location</h2>
           <div className="flex flex-col gap-4 items-between">
             <div className="w-full max-h-[100px] overflow-hidden rounded-md cursor-grab active:cursor-grabbing bg-background">
@@ -386,11 +418,14 @@ const DashboardDefault = () => {
               ))}
             </div>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-secondary flex flex-col gap-4 rounded-lg p-4 lg:p-6 md:col-span-3">
+      <motion.div className="grid grid-cols-1 md:grid-cols-4 gap-6" variants={staggerParent}>
+        <motion.div
+          className="bg-secondary flex flex-col gap-4 rounded-lg p-4 lg:p-6 md:col-span-3"
+          variants={fadeInUp}
+        >
           <h2 className="text-sm font-semibold">Top Selling Products</h2>
           <div className="overflow-x-auto w-full">
             <Table>
@@ -417,9 +452,12 @@ const DashboardDefault = () => {
               </TableBody>
             </Table>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="bg-secondary p-4 lg:p-6 rounded-lg flex flex-col gap-4 justify-start">
+        <motion.div
+          className="bg-secondary p-4 lg:p-6 rounded-lg flex flex-col gap-4 justify-start"
+          variants={fadeInUp}
+        >
           <h2 className="text-sm font-semibold">Total Sales</h2>
           <div className="flex flex-col items-center gap-6">
             <div className="relative w-full">
@@ -473,9 +511,9 @@ const DashboardDefault = () => {
               ))}
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   )
 }
 

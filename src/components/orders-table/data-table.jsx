@@ -7,6 +7,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { motion } from 'motion/react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -19,6 +20,9 @@ import {
 } from '@/components/ui/table'
 import { columns } from './columns'
 import { DataTableToolbar } from './data-table-toolbar'
+
+const MotionTableBody = motion(TableBody)
+const MotionTableRow = motion(TableRow)
 
 const globalFilterFn = (row, columnId, filterValue) => {
   const search = filterValue.toLowerCase()
@@ -71,16 +75,36 @@ export function DataTable({ data }) {
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody>
+          <MotionTableBody
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: {},
+              visible: {
+                transition: { staggerChildren: 0.04, delayChildren: 0.05 },
+              },
+            }}
+          >
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+                <MotionTableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && 'selected'}
+                  variants={{
+                    hidden: { opacity: 0, y: 8 },
+                    visible: {
+                      opacity: 1,
+                      y: 0,
+                      transition: { duration: 0.3, ease: 'easeOut' },
+                    },
+                  }}
+                >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
-                </TableRow>
+                </MotionTableRow>
               ))
             ) : (
               <TableRow>
@@ -89,7 +113,7 @@ export function DataTable({ data }) {
                 </TableCell>
               </TableRow>
             )}
-          </TableBody>
+          </MotionTableBody>
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2">
