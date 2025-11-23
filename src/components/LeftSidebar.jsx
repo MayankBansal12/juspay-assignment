@@ -152,7 +152,7 @@ const LeftSidebar = () => {
                             overflow: "visible"
                           }}
                           whileTap={{ scale: 0.97 }}
-                          transition={{ duration: 0.05 }}
+                          transition={{ delay: 0.01, duration: 0.05 }}
                           className={cn(
                             'relative w-full flex items-center gap-[8px] px-[8px] py-[6px] rounded-md text-sm transition-colors',
                             isActive

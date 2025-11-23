@@ -50,10 +50,10 @@ const Header = () => {
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.span
                     key={isLeftSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}
-                    initial={{ opacity: 0.5, rotate: isLeftSidebarOpen ? -90 : 90, scale: 0.85 }}
-                    animate={{ opacity: 1, rotate: 0, scale: 1 }}
-                    exit={{ opacity: 0.5, rotate: isLeftSidebarOpen ? 90 : -90, scale: 0.85 }}
-                    transition={{ duration: 0.3, delay: 0.1, ease: 'easeOut' }}
+                    initial={{ rotateY: 90, opacity: 0 }}
+                    animate={{ rotateY: 0, opacity: 1 }}
+                    exit={{ rotateY: -90, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
                     className="flex items-center justify-center"
                   >
                     {isLeftSidebarOpen ? (
@@ -175,10 +175,9 @@ const Header = () => {
               <AnimatePresence mode="wait" initial={false}>
                 <motion.span
                   key={isActivitySidebarOpen ? 'sidebar-open' : 'sidebar-closed'}
-                  initial={{ opacity: 0.5, rotate: isActivitySidebarOpen ? -90 : 90, scale: 0.85 }}
-                  animate={{ opacity: 1, rotate: 0, scale: 1 }}
-                  exit={{ opacity: 0.5, rotate: isActivitySidebarOpen ? 90 : -90, scale: 0.85 }}
-                  transition={{ duration: 0.3, delay: 0.1, ease: 'easeOut' }}
+                  initial={{ rotateY: 90, opacity: 0 }}
+                  animate={{ rotateY: 0, opacity: 1 }}
+                  exit={{ rotateY: -90, opacity: 0 }}
                   className="flex items-center justify-center"
                 >
                   {isActivitySidebarOpen ? (
