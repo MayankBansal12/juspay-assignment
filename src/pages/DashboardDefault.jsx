@@ -27,15 +27,22 @@ import { ComposableMap, Geographies, Geography, ZoomableGroup } from 'react-simp
 
 const kpiData = [
   {
-    title: 'Customers', value: '3,781', change: '+11.01%', isPositive: true, bgColor: 'bg-card',
-    textColor: 'text-[var(--black-100)]'
+    title: 'Customers',
+    value: '3,781',
+    change: '+11.01%',
+    isPositive: true,
+    bgColor: 'bg-card',
+    textColor: 'text-[var(--black-100)]',
   },
   { title: 'Orders', value: '1,219', change: '-0.03%', isPositive: false },
   { title: 'Revenue', value: '$695', change: '+15.03%', isPositive: true },
   {
-    title: 'Growth', value: '30.1%', change: '+6.08%', isPositive: true,
+    title: 'Growth',
+    value: '30.1%',
+    change: '+6.08%',
+    isPositive: true,
     bgColor: 'bg-card-foreground',
-    textColor: 'text-[var(--black-100)]'
+    textColor: 'text-[var(--black-100)]',
   },
 ]
 
@@ -53,7 +60,13 @@ const revenueTrendData = [
   { name: 'Feb', prevWeek: 19, currentWeekSolid: 9, currentWeekDotted: null, currentWeek: 9 },
   { name: 'Mar', prevWeek: 15, currentWeekSolid: 11, currentWeekDotted: null, currentWeek: 11 },
   { name: 'Apr', prevWeek: 12, currentWeekSolid: 15, currentWeekDotted: 15, currentWeek: 15 },
-  { name: 'May', prevWeek: 10.5, currentWeekSolid: null, currentWeekDotted: 19.5, currentWeek: 19.5 },
+  {
+    name: 'May',
+    prevWeek: 10.5,
+    currentWeekSolid: null,
+    currentWeekDotted: 19.5,
+    currentWeek: 19.5,
+  },
   { name: 'Jun', prevWeek: 22, currentWeekSolid: null, currentWeekDotted: 17.5, currentWeek: 17.5 },
 ]
 
@@ -79,7 +92,7 @@ const topProductsData = [
 
 const salesData = [
   { name: 'Direct', value: 300.56, color: '#C6C7F8' },
-  { name: 'Affiliate', value: 135.10, color: '#BAEDBD' },
+  { name: 'Affiliate', value: 135.1, color: '#BAEDBD' },
   { name: 'Sponsored', value: 154.02, color: '#95A4FC' },
   { name: 'E-mail', value: 48.96, color: '#B1E3FF' },
 ]
@@ -94,7 +107,8 @@ const RevenueTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     const dataPoint = payload[0]?.payload
     const prevWeekValue = dataPoint?.prevWeek
-    const currentWeekValue = dataPoint?.currentWeek ?? dataPoint?.currentWeekSolid ?? dataPoint?.currentWeekDotted
+    const currentWeekValue =
+      dataPoint?.currentWeek ?? dataPoint?.currentWeekSolid ?? dataPoint?.currentWeekDotted
 
     return (
       <div
@@ -109,14 +123,10 @@ const RevenueTooltip = ({ active, payload, label }) => {
       >
         <p style={{ color: 'hsl(var(--muted-foreground))', marginBottom: '4px' }}>{label}</p>
         {prevWeekValue !== null && prevWeekValue !== undefined && (
-          <p style={{ color: 'hsl(var(--muted-foreground))' }}>
-            Previous Week: {prevWeekValue}M
-          </p>
+          <p style={{ color: 'hsl(var(--muted-foreground))' }}>Previous Week: {prevWeekValue}M</p>
         )}
         {currentWeekValue !== null && currentWeekValue !== undefined && (
-          <p style={{ color: 'hsl(var(--muted-foreground))' }}>
-            Current Week: {currentWeekValue}M
-          </p>
+          <p style={{ color: 'hsl(var(--muted-foreground))' }}>Current Week: {currentWeekValue}M</p>
         )}
       </div>
     )
@@ -146,7 +156,7 @@ const DashboardDefault = () => {
                     <p className="text-2xl font-semibold">{kpi.value}</p>
                     <p className="text-xs flex items-center gap-1">
                       <span>{kpi.change}</span>
-                      {!!kpi.isPositive ? (
+                      {kpi.isPositive ? (
                         <TrendingUp className="h-4 w-4" />
                       ) : (
                         <TrendingDown className="h-4 w-4 rotate-[105deg]" />
@@ -157,7 +167,9 @@ const DashboardDefault = () => {
               </TooltipTrigger>
 
               <TooltipContent>
-                <p>{kpi.title}: {kpi.value}</p>
+                <p>
+                  {kpi.title}: {kpi.value}
+                </p>
               </TooltipContent>
             </Tooltip>
           ))}
@@ -235,13 +247,19 @@ const DashboardDefault = () => {
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-primary"></div>
                 <span className="text-xs text-muted-foreground">
-                  Current Week <span className="text-primary font-semibold">${(totalCurrentWeek * 1000000).toLocaleString()}</span>
+                  Current Week{' '}
+                  <span className="text-primary font-semibold">
+                    ${(totalCurrentWeek * 1000000).toLocaleString()}
+                  </span>
                 </span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-[hsl(var(--line-chart))]"></div>
                 <span className="text-xs text-muted-foreground">
-                  Previous Week <span className="text-primary font-semibold">${(totalPrevWeek * 1000000).toLocaleString()}</span>
+                  Previous Week{' '}
+                  <span className="text-primary font-semibold">
+                    ${(totalPrevWeek * 1000000).toLocaleString()}
+                  </span>
                 </span>
               </div>
             </div>
@@ -273,10 +291,7 @@ const DashboardDefault = () => {
                 tickLine={false}
                 axisLine={false}
               />
-              <RechartsTooltip
-                cursor={false}
-                content={<RevenueTooltip />}
-              />
+              <RechartsTooltip cursor={false} content={<RevenueTooltip />} />
               <Line
                 type="monotone"
                 dataKey="prevWeek"
@@ -319,12 +334,7 @@ const DashboardDefault = () => {
                 height={100}
                 style={{ width: '100%', height: 'auto' }}
               >
-                <ZoomableGroup
-                  zoom={1}
-                  center={[0, 20]}
-                  minZoom={0.8}
-                  maxZoom={3}
-                >
+                <ZoomableGroup zoom={1} center={[0, 20]} minZoom={0.8} maxZoom={3}>
                   <Geographies geography="https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json">
                     {({ geographies }) =>
                       geographies.map((geo) => (
@@ -394,7 +404,10 @@ const DashboardDefault = () => {
               </TableHeader>
               <TableBody>
                 {topProductsData.map((product, index) => (
-                  <TableRow key={index} className="!rounded-lg cursor-pointer hover:bg-primary/10 hover:text-foreground">
+                  <TableRow
+                    key={index}
+                    className="!rounded-lg cursor-pointer hover:bg-primary/10 hover:text-foreground"
+                  >
                     <TableCell className="text-xs">{product.name}</TableCell>
                     <TableCell className="text-xs">{product.price}</TableCell>
                     <TableCell className="text-xs">{product.quantity}</TableCell>
@@ -436,11 +449,11 @@ const DashboardDefault = () => {
                     formatter={(value, name) => {
                       const dataEntry = salesDataWithPercentage.find(
                         (entry) => entry.name === name && entry.value === value
-                      );
+                      )
                       if (dataEntry && dataEntry.percentage) {
-                        return [`${dataEntry.name}: ${dataEntry.percentage}%`];
+                        return [`${dataEntry.name}: ${dataEntry.percentage}%`]
                       }
-                      return [`${name}: $${value.toFixed(2)}`];
+                      return [`${name}: $${value.toFixed(2)}`]
                     }}
                     labelStyle={{ color: 'hsl(var(--muted-foreground))' }}
                     itemStyle={{ color: 'hsl(var(--muted-foreground))' }}
@@ -452,10 +465,7 @@ const DashboardDefault = () => {
               {salesDataWithPercentage.map((item, index) => (
                 <div key={index} className="flex items-center justify-between gap-4">
                   <div className="flex items-center gap-2">
-                    <div
-                      className="w-2 h-2 rounded-full"
-                      style={{ backgroundColor: item.color }}
-                    />
+                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color }} />
                     <span className="text-xs text-muted-foreground">{item.name}</span>
                   </div>
                   <span className="text-xs font-semibold">${item.value.toFixed(2)}</span>

@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -6,22 +6,22 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
-import { ListFilter, Plus, Search, X } from "lucide-react"
-import { useEffect, useState } from "react"
+} from '@/components/ui/dropdown-menu'
+import { Input } from '@/components/ui/input'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { ListFilter, Plus, Search, X } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
-const statuses = ["In Progress", "Complete", "Pending", "Approved", "Rejected"]
+const statuses = ['In Progress', 'Complete', 'Pending', 'Approved', 'Rejected']
 
 export function DataTableToolbar({ table }) {
   const columnFilters = table.getState().columnFilters
-  const globalFilter = table.getState().globalFilter || ""
-  const statusFilter = columnFilters.find((filter) => filter.id === "status")?.value || []
+  const globalFilter = table.getState().globalFilter || ''
+  const statusFilter = columnFilters.find((filter) => filter.id === 'status')?.value || []
   const [selectedStatuses, setSelectedStatuses] = useState(statusFilter)
 
   useEffect(() => {
-    const currentFilter = columnFilters.find((filter) => filter.id === "status")?.value || []
+    const currentFilter = columnFilters.find((filter) => filter.id === 'status')?.value || []
     setSelectedStatuses(Array.isArray(currentFilter) ? currentFilter : [])
   }, [columnFilters])
 
@@ -35,16 +35,16 @@ export function DataTableToolbar({ table }) {
     setSelectedStatuses(newStatuses)
 
     if (newStatuses.length > 0) {
-      table.getColumn("status").setFilterValue(newStatuses)
+      table.getColumn('status').setFilterValue(newStatuses)
     } else {
-      table.getColumn("status").setFilterValue(undefined)
+      table.getColumn('status').setFilterValue(undefined)
     }
   }
 
   const clearFilters = () => {
     setSelectedStatuses([])
     table.resetColumnFilters()
-    table.setGlobalFilter("")
+    table.setGlobalFilter('')
   }
 
   return (

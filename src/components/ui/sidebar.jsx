@@ -138,7 +138,16 @@ const SidebarProvider = React.forwardRef(
         toggleSidebar,
         width: sidebarWidth,
       }),
-      [state, open, setOpen, isMobile, openMobile, handleMobileOpenChange, toggleSidebar, sidebarWidth]
+      [
+        state,
+        open,
+        setOpen,
+        isMobile,
+        openMobile,
+        handleMobileOpenChange,
+        toggleSidebar,
+        sidebarWidth,
+      ]
     )
 
     const content = (
@@ -173,11 +182,7 @@ const SidebarProvider = React.forwardRef(
       </TooltipProvider>
     )
 
-    return (
-      <SidebarContext.Provider value={contextValue}>
-        {content}
-      </SidebarContext.Provider>
-    )
+    return <SidebarContext.Provider value={contextValue}>{content}</SidebarContext.Provider>
   }
 )
 SidebarProvider.displayName = 'SidebarProvider'
@@ -195,7 +200,13 @@ const Sidebar = React.forwardRef(
     },
     ref
   ) => {
-    const { isMobile, state: contextState, openMobile, setOpenMobile, width: sidebarWidth } = useSidebar()
+    const {
+      isMobile,
+      state: contextState,
+      openMobile,
+      setOpenMobile,
+      width: sidebarWidth,
+    } = useSidebar()
     const state = openProp !== undefined ? (openProp ? 'expanded' : 'collapsed') : contextState
 
     if (collapsible === 'none') {
@@ -586,7 +597,7 @@ const SidebarMenuAction = React.forwardRef(
           'peer-data-[size=lg]/menu-button:top-2.5',
           'group-data-[collapsible=icon]:hidden',
           showOnHover &&
-          'group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100 peer-data-[active=true]/menu-button:text-sidebar-accent-foreground md:opacity-0',
+            'group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100 peer-data-[active=true]/menu-button:text-sidebar-accent-foreground md:opacity-0',
           className
         )}
         {...props}

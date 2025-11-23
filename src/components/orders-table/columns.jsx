@@ -1,30 +1,30 @@
-import { ArrowUpDown, MoreHorizontal, Calendar } from "lucide-react"
+import { ArrowUpDown, MoreHorizontal, Calendar } from 'lucide-react'
 
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge, BadgeDot } from "@/components/ui/badge"
-import { toast } from "sonner"
+} from '@/components/ui/dropdown-menu'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Badge, BadgeDot } from '@/components/ui/badge'
+import { toast } from 'sonner'
 
 const parseDate = (dateStr) => {
   if (!dateStr) return 0
 
   const now = Date.now()
-  if (dateStr === "Just now") return now
-  if (dateStr === "A minute ago") return now - 60000
-  if (dateStr.includes("hour ago")) {
-    const hours = parseInt(dateStr.match(/\d+/)?.[0] || "0")
+  if (dateStr === 'Just now') return now
+  if (dateStr === 'A minute ago') return now - 60000
+  if (dateStr.includes('hour ago')) {
+    const hours = parseInt(dateStr.match(/\d+/)?.[0] || '0')
     return now - hours * 3600000
   }
-  if (dateStr === "Today") return now
-  if (dateStr === "Yesterday") return now - 86400000
+  if (dateStr === 'Today') return now
+  if (dateStr === 'Yesterday') return now - 86400000
 
   const parsed = Date.parse(dateStr)
   if (!isNaN(parsed)) return parsed
@@ -34,23 +34,22 @@ const parseDate = (dateStr) => {
 
 const getStatusColor = (status) => {
   const statusMap = {
-    "In Progress": "blue",
-    "Complete": "green",
-    "Pending": "yellow",
-    "Approved": "purple",
-    "Rejected": "red",
+    'In Progress': 'blue',
+    Complete: 'green',
+    Pending: 'yellow',
+    Approved: 'purple',
+    Rejected: 'red',
   }
-  return statusMap[status] || "gray"
+  return statusMap[status] || 'gray'
 }
 
 export const columns = [
   {
-    id: "select",
+    id: 'select',
     header: ({ table }) => (
       <Checkbox
         checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
+          table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
@@ -67,12 +66,12 @@ export const columns = [
     enableHiding: false,
   },
   {
-    accessorKey: "id",
+    accessorKey: 'id',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           className="h-8 px-2 lg:px-3"
         >
           Order ID
@@ -81,16 +80,16 @@ export const columns = [
       )
     },
     cell: ({ row }) => {
-      return <div className="font-medium">{row.getValue("id")}</div>
+      return <div className="font-medium">{row.getValue('id')}</div>
     },
   },
   {
-    accessorKey: "user",
+    accessorKey: 'user',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           className="h-8 px-2 lg:px-3"
         >
           User
@@ -117,26 +116,26 @@ export const columns = [
     },
   },
   {
-    accessorKey: "project",
-    header: "Project",
+    accessorKey: 'project',
+    header: 'Project',
     cell: ({ row }) => {
-      return <div>{row.getValue("project")}</div>
+      return <div>{row.getValue('project')}</div>
     },
   },
   {
-    accessorKey: "address",
-    header: "Address",
+    accessorKey: 'address',
+    header: 'Address',
     cell: ({ row }) => {
-      return <div className="text-muted-foreground">{row.getValue("address")}</div>
+      return <div className="text-muted-foreground">{row.getValue('address')}</div>
     },
   },
   {
-    accessorKey: "date",
+    accessorKey: 'date',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           className="h-8 px-2 lg:px-3"
         >
           Date
@@ -148,7 +147,7 @@ export const columns = [
       return (
         <div className="flex items-center gap-2 text-muted-foreground">
           <Calendar className="h-4 w-4" />
-          <span>{row.getValue("date")}</span>
+          <span>{row.getValue('date')}</span>
         </div>
       )
     },
@@ -159,12 +158,12 @@ export const columns = [
     },
   },
   {
-    accessorKey: "status",
+    accessorKey: 'status',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           className="h-8 px-2 lg:px-3"
         >
           Status
@@ -173,7 +172,7 @@ export const columns = [
       )
     },
     cell: ({ row }) => {
-      const status = row.getValue("status")
+      const status = row.getValue('status')
       const color = getStatusColor(status)
       return (
         <Badge color={color}>
@@ -188,7 +187,7 @@ export const columns = [
     },
   },
   {
-    id: "actions",
+    id: 'actions',
     enableHiding: false,
     cell: ({ row }) => {
       return (
@@ -203,16 +202,11 @@ export const columns = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
               onClick={() => {
-                toast.promise(
-                  () => new Promise((resolve) =>
-                    setTimeout(() => resolve(), 500)
-                  ),
-                  {
-                    loading: "Copying...",
-                    success: "Order ID has been copied",
-                    error: "Error",
-                  }
-                )
+                toast.promise(() => new Promise((resolve) => setTimeout(() => resolve(), 500)), {
+                  loading: 'Copying...',
+                  success: 'Order ID has been copied',
+                  error: 'Error',
+                })
                 navigator.clipboard.writeText(row.original.id)
               }}
             >

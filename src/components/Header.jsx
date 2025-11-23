@@ -83,7 +83,12 @@ const Header = () => {
                       </BreadcrumbLink>
                     )}
                   </BreadcrumbItem>
-                  {!isLast && <BreadcrumbSeparator> <p>/</p> </BreadcrumbSeparator>}
+                  {!isLast && (
+                    <BreadcrumbSeparator>
+                      {' '}
+                      <p>/</p>{' '}
+                    </BreadcrumbSeparator>
+                  )}
                 </React.Fragment>
               )
             })}

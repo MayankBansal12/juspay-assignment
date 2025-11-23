@@ -8,7 +8,8 @@ import { useIsMobile, MOBILE_BREAKPOINT } from '@/hooks/use-mobile'
 import { useEffect, useRef } from 'react'
 
 const Layout = () => {
-  const { isLeftSidebarOpen, isActivitySidebarOpen, setLeftSidebarOpen, setActivitySidebarOpen } = useStore()
+  const { isLeftSidebarOpen, isActivitySidebarOpen, setLeftSidebarOpen, setActivitySidebarOpen } =
+    useStore()
   const isMobile = useIsMobile()
   const hasInitialized = useRef(false)
 
@@ -23,10 +24,16 @@ const Layout = () => {
       }
       hasInitialized.current = true
     }
-  }, [isMobile, isLeftSidebarOpen, isActivitySidebarOpen, setLeftSidebarOpen, setActivitySidebarOpen])
+  }, [
+    isMobile,
+    isLeftSidebarOpen,
+    isActivitySidebarOpen,
+    setLeftSidebarOpen,
+    setActivitySidebarOpen,
+  ])
 
   return (
-    <div 
+    <div
       className="flex min-h-svh w-full"
       style={{
         '--sidebar-width-icon': '3rem',

@@ -1,13 +1,13 @@
-import { DataTable } from "@/components/orders-table/data-table";
-import { orders } from "@/lib/mocks/orders";
-import { useStore } from "@/store/useStore";
-import { useEffect } from "react";
+import { DataTable } from '@/components/orders-table/data-table'
+import { orders } from '@/lib/mocks/orders'
+import { useStore } from '@/store/useStore'
+import { useEffect } from 'react'
 
 const OrderList = () => {
-  const { setActivitySidebarOpen } = useStore();
+  const { setActivitySidebarOpen } = useStore()
 
   useEffect(() => {
-    setActivitySidebarOpen(false);
+    setActivitySidebarOpen(false)
   }, [])
 
   return (

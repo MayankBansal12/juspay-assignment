@@ -1,6 +1,6 @@
 import { ComingSoon } from '@/components/ComingSoon'
 import Layout from '@/components/Layout'
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import DashboardDefault from '@/pages/DashboardDefault'
 import OrderList from '@/pages/OrderList'
@@ -26,10 +26,7 @@ function App() {
             <Route path="default" element={<DashboardDefault />} />
             <Route path="order-list" element={<OrderList />} />
             <Route index element={<Navigate to="/dashboard/default" replace />} />
-            <Route
-              path="*"
-              element={<ComingSoon />}
-            />
+            <Route path="*" element={<ComingSoon />} />
           </Route>
         </Routes>
       </Router>

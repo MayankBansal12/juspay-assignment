@@ -1,6 +1,6 @@
-import { Search } from "lucide-react"
-import { Kbd } from "./ui/kbd"
-import { useEffect, useRef } from "react"
+import { Search } from 'lucide-react'
+import { Kbd } from './ui/kbd'
+import { useEffect, useRef } from 'react'
 
 export function SearchBar() {
   const inputRef = useRef(null)
