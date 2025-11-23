@@ -11,7 +11,9 @@ import { Button } from '@/components/ui/button'
 import { Kbd } from '@/components/ui/kbd'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { useStore } from '@/store/useStore'
-import { Bell, History, Moon, PanelLeft, PanelRight, Star, Sun } from 'lucide-react'
+import { PanelRightOpen } from 'lucide-react'
+import { Bell, History, Moon, PanelLeft, PanelLeftOpen, PanelRight, Star, Sun } from 'lucide-react'
+import { AnimatePresence, motion } from 'motion/react'
 import React from 'react'
 import { useLocation } from 'react-router-dom'
 
@@ -45,7 +47,22 @@ const Header = () => {
                 onClick={toggleLeftSidebar}
                 className={isLeftSidebarOpen ? '' : 'text-muted-foreground'}
               >
-                <PanelLeft className="h-5 w-5" />
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.span
+                    key={isLeftSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}
+                    initial={{ opacity: 0, rotate: isLeftSidebarOpen ? -12 : 12, scale: 0.85 }}
+                    animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                    exit={{ opacity: 0, rotate: isLeftSidebarOpen ? 12 : -12, scale: 0.85 }}
+                    transition={{ duration: 0.18, ease: 'easeOut' }}
+                    className="flex items-center justify-center"
+                  >
+                    {isLeftSidebarOpen ? (
+                      <PanelLeft className="h-5 w-5" />
+                    ) : (
+                      <PanelLeftOpen className="h-5 w-5" />
+                    )}
+                  </motion.span>
+                </AnimatePresence>
               </Button>
             </TooltipTrigger>
             <TooltipContent>
@@ -106,7 +123,18 @@ const Header = () => {
               size="icon"
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             >
-              {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={theme}
+                  initial={{ opacity: 0, rotate: -15, scale: 0.85, y: -4 }}
+                  animate={{ opacity: 1, rotate: 0, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, rotate: 15, scale: 0.85, y: 4 }}
+                  transition={{ duration: 0.2, ease: 'easeOut' }}
+                  className="flex items-center justify-center"
+                >
+                  {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                </motion.span>
+              </AnimatePresence>
             </Button>
           </TooltipTrigger>
           <TooltipContent>
@@ -144,7 +172,22 @@ const Header = () => {
               onClick={toggleActivitybar}
               className={isActivitySidebarOpen ? '' : 'text-muted-foreground'}
             >
-              <PanelRight className="h-5 w-5" />
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={isActivitySidebarOpen ? 'sidebar-open' : 'sidebar-closed'}
+                  initial={{ opacity: 0, rotate: isActivitySidebarOpen ? -12 : 12, scale: 0.85 }}
+                  animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                  exit={{ opacity: 0, rotate: isActivitySidebarOpen ? 12 : -12, scale: 0.85 }}
+                  transition={{ duration: 0.18, ease: 'easeOut' }}
+                  className="flex items-center justify-center"
+                >
+                  {isActivitySidebarOpen ? (
+                    <PanelRight className="h-5 w-5" />
+                  ) : (
+                    <PanelRightOpen className="h-5 w-5" />
+                  )}
+                </motion.span>
+              </AnimatePresence>
             </Button>
           </TooltipTrigger>
           <TooltipContent>
