@@ -1,63 +1,89 @@
 # Juspay Assignment - React Dashboard
 
-A react dashboard built with shadcn/ui, tailwind css, motion, and zustand.
-Features responsive layout, theming, data tables, charts, and client-side routing.
+This project is a responsive React dashboard application built using `shadcn/ui`, Tailwind CSS, Motion, and Zustand. It features a modern design with theming, dynamic data tables, interactive charts, and client-side routing.
 
-Live demo
+## Live Demo
 
-- URL: https://juspay-assignment-zeta.vercel.app/dashboard/default
+- **URL**: https://juspay-assignment-zeta.vercel.app/dashboard/default
 
-Tech stack
+## Tech Stack
 
-- Framework: React 19 + vite
-- Routing: react-router v7
-- State management: Zustand
-- UI primitives: shadcn/ui, Recharts, TanStack Table
-- Animations: Motion
-- Maps: react-simple-maps + topojson-client
-- Icons & toasts: lucide-react, sonner
-- Tooling: eslint, prettier, husky, lint-staged
-- Package manager: pnpm
+- **Framework**: React 19 + Vite
+- **Routing**: React Router v7
+- **State Management**: Zustand
+- **UI Primitives**: shadcn/ui, Recharts, TanStack Table
+- **Animations**: Motion
+- **Maps**: react-simple-maps + topojson-client
+- **Tooling**: eslint, prettier
+- **Package Manager**: pnpm
 
-Requirements
+## Requirements
+
+To run this project, you will need:
 
 - Node.js 18.18+ (or 20+)
 - pnpm 8+
 
-Getting started
+## Getting Started
 
-1. Clone and install
+Follow these steps to set up and run the project locally:
 
-- pnpm install
+1.  **Clone the repository and install dependencies**:
 
-2. Run the dev server
+    ```bash
+    git clone <repository-url>
+    cd juspay-assignment
+    pnpm install
+    ```
 
-- pnpm dev
-- App will be available at the URL printed by Vite (typically http://localhost:5173)
+2.  **Run the development server**:
 
-3. Build and preview production build
+    ```bash
+    pnpm dev
+    ```
 
-- pnpm build
+    The application will be available at the URL printed by Vite (typically `http://localhost:5173`).
 
-Available scripts
+3.  **Build and preview the production build**:
 
-- pnpm dev: Start Vite dev server
-- pnpm build: Build for production
-- pnpm preview: Preview the production build locally
-- pnpm lint: Run ESLint
+    ```bash
+    pnpm build
+    pnpm preview
+    ```
 
-Development notes
+## Available Scripts
 
-- Path aliases
-  - @ → ./src
-  - Enabled in vite.config.js and jsconfig.json
-  - Example: import Component from '@/components/Component'
+- `pnpm dev`: Starts the Vite development server.
+- `pnpm build`: Builds the application for production.
+- `pnpm preview`: Serves the production build locally for preview.
+- `pnpm lint`: Runs ESLint to check for code quality issues.
+- `pnpm test`: Runs the tests.
 
-- Styling and UI
-  - Tailwind configured in tailwind.config.js with darkMode: 'class'
-  - shadcn/ui components live in src/components/ui
-  - Animation utilities: tailwindcss-animate
+## Testing
 
-- Keyboard shortcuts
-  - Toggle left sidebar: Ctrl/Cmd + B
-  - Toggle activity sidebar: Ctrl/Cmd + Alt + B
+This project utilizes Vitest for unit and integration testing.
+
+To execute the tests:
+
+```bash
+pnpm test
+```
+
+## Development Notes
+
+### Path Aliases
+
+- `@` → `./src`
+- Enabled in `vite.config.js` and `jsconfig.json`.
+- Example: `import Component from '@/components/Component'`
+
+### Styling and UI
+
+- Tailwind CSS is configured in `tailwind.config.js` with `darkMode: 'class'`.
+- `shadcn/ui` components are located in `src/components/ui`.
+- Animation utilities are provided by `tailwindcss-animate`.
+
+### Keyboard Shortcuts
+
+- Toggle left sidebar: `Ctrl/Cmd + B`
+- Toggle activity sidebar: `Ctrl/Cmd + Alt + B`
