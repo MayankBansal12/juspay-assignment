@@ -1,4 +1,5 @@
-import { ArrowUpDown, MoreHorizontal, Calendar } from 'lucide-react'
+import { ArrowUpDown, Calendar, Check, Loader2, MoreHorizontal } from 'lucide-react'
+import { AnimatePresence, motion } from 'motion/react'
 
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -11,7 +12,6 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge, BadgeDot } from '@/components/ui/badge'
-import { toast } from 'sonner'
 
 const parseDate = (dateStr) => {
   if (!dateStr) return 0
@@ -189,27 +189,42 @@ export const columns = [
   {
     id: 'actions',
     enableHiding: false,
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
+      const copyStatus =
+        table.options.meta?.copyStates?.[row.original.id] ?? "idle"
+
+      const handleCopy = () => {
+        table.options.meta?.onCopyOrder?.(row.original.id)
+      }
+
+      const renderIcon = () => {
+        if (copyStatus === 'loading') return <Loader2 className="h-4 w-4 animate-spin" />
+        if (copyStatus === 'success') return <Check className="h-4 w-4 text-green-500" />
+        return <MoreHorizontal className="h-4 w-4" />
+      }
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
               <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={copyStatus}
+                  initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+                  animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                  exit={{ opacity: 0, scale: 0.8, rotate: 5 }}
+                  transition={{ duration: 0.2, ease: 'easeOut' }}
+                  className="flex items-center justify-center"
+                >
+                  {renderIcon()}
+                </motion.span>
+              </AnimatePresence>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => {
-                toast.promise(() => new Promise((resolve) => setTimeout(() => resolve(), 500)), {
-                  loading: 'Copying...',
-                  success: 'Order ID has been copied',
-                  error: 'Error',
-                })
-                navigator.clipboard.writeText(row.original.id)
-              }}
-            >
+            <DropdownMenuItem onClick={handleCopy}>
               Copy order ID
             </DropdownMenuItem>
           </DropdownMenuContent>

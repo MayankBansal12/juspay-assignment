@@ -1,3 +1,12 @@
+import { Button } from '@/components/ui/button'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 import {
   flexRender,
   getCoreRowModel,
@@ -8,18 +17,8 @@ import {
 } from '@tanstack/react-table'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { motion } from 'motion/react'
-
-import { Button } from '@/components/ui/button'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-import { columns } from './columns'
-import { DataTableToolbar } from './data-table-toolbar'
+import { columns } from '@/components/orders-table/columns'
+import { DataTableToolbar } from '@/components/orders-table/data-table-toolbar'
 
 const MotionTableBody = motion(TableBody)
 const MotionTableRow = motion(TableRow)
@@ -39,7 +38,7 @@ const globalFilterFn = (row, columnId, filterValue) => {
   return searchableFields.some((field) => field.includes(search))
 }
 
-export function DataTable({ data }) {
+export function DataTable({ data, copyStates = {}, onCopyOrder }) {
   const table = useReactTable({
     data,
     columns,
@@ -52,6 +51,10 @@ export function DataTable({ data }) {
       pagination: {
         pageSize: 10,
       },
+    },
+    meta: {
+      copyStates,
+      onCopyOrder,
     },
   })
 
