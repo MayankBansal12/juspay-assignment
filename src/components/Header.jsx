@@ -34,7 +34,7 @@ const Header = () => {
   } = useStore()
 
   return (
-    <nav className="h-[68px] sticky bg-background border-b py-5 px-2 lg:px-7 flex items-center justify-between gap-2 transition-all duration-500">
+    <nav className="h-[68px] sticky bg-background border-b border-border py-5 px-2 lg:px-7 flex items-center justify-between gap-2 transition-all duration-500">
       <div className="flex items-center gap-2">
         <div className="flex items-center gap-[1px]">
           <Tooltip>

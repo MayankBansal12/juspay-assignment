@@ -83,7 +83,7 @@ const LeftSidebar = () => {
     }
 
     return (
-        <Sidebar collapsible="offcanvas" className="bg-background flex flex-col h-full border-r transition-all duration-300 overflow-y-auto">
+        <Sidebar collapsible="offcanvas" className="bg-background flex flex-col h-full border-r border-border transition-all duration-300 overflow-y-auto">
             <SidebarHeader className="p-4">
                 <div className="flex items-center gap-3 overflow-hidden">
                     <Avatar className="h-8 w-8 shrink-0">
@@ -148,7 +148,7 @@ const LeftSidebar = () => {
                                                     "relative w-full flex items-center gap-2 px-2 py-1.5 rounded-md text-sm transition-colors",
                                                     isActive
                                                         ? "bg-secondary text-foreground font-medium"
-                                                        : "text-muted-foreground hover:bg-secondary/50 hover:text-foreground"
+                                                        : "text-muted-foreground hover:bg-secondary/90 dark:hover:bg-secondary/60 hover:text-foreground"
                                                 )}
                                             >
                                                 {isActive && (

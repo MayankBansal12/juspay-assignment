@@ -73,6 +73,8 @@ const topProductsData = [
   { name: 'Half Sleeve Shirt', price: '$39.99', quantity: 64, amount: '$2,559.36' },
   { name: 'Lightweight Jacket', price: '$20.00', quantity: 184, amount: '$3,680.00' },
   { name: 'Marco Shoes', price: '$79.49', quantity: 64, amount: '$1,965.81' },
+  { name: 'ASOS Shoes', price: '$89.90', quantity: 14, amount: '$1,665.80' },
+  { name: 'Ridley Shirt', price: '$30.00', quantity: 180, amount: '$5,400.00' },
 ]
 
 const salesData = [
@@ -226,7 +228,7 @@ const DashboardDefault = () => {
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
-        <div className="bg-secondary h-fit md:h-[318px] flex flex-col gap-4 rounded-lg p-4 lg:p-6 xl:col-span-3">
+        <div className="bg-secondary h-fit md:h-[330px] flex flex-col gap-4 rounded-lg p-4 lg:p-6 xl:col-span-3">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <h2 className="text-sm font-semibold">Revenue</h2>
             <div className="flex items-center gap-4 flex-wrap">
@@ -377,8 +379,8 @@ const DashboardDefault = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
-        <div className="bg-secondary flex flex-col gap-4 rounded-lg p-4 lg:p-6 xl:col-span-3">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="bg-secondary flex flex-col gap-4 rounded-lg p-4 lg:p-6 md:col-span-3">
           <h2 className="text-sm font-semibold">Top Selling Products</h2>
           <div className="overflow-x-auto w-full">
             <Table>
@@ -392,7 +394,7 @@ const DashboardDefault = () => {
               </TableHeader>
               <TableBody>
                 {topProductsData.map((product, index) => (
-                  <TableRow key={index} className="!rounded-md cursor-pointer hover:bg-secondary">
+                  <TableRow key={index} className="!rounded-lg cursor-pointer hover:bg-primary/10 hover:text-foreground">
                     <TableCell className="text-xs">{product.name}</TableCell>
                     <TableCell className="text-xs">{product.price}</TableCell>
                     <TableCell className="text-xs">{product.quantity}</TableCell>

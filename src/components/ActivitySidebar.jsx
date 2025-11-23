@@ -40,7 +40,7 @@ const getNotificationIcon = (type) => {
 
 const ActivitySidebar = () => {
     return (
-        <Sidebar side="right" collapsible="offcanvas" className="bg-background flex flex-col h-full border-l transition-all duration-300 overflow-y-auto">
+        <Sidebar side="right" collapsible="offcanvas" className="bg-background flex flex-col h-full border-l border-border transition-all duration-300 overflow-y-auto">
             <SidebarContent className="py-7 px-4 space-y-3">
                 <div>
                     <h3 className="font-semibold text-sm mb-2 px-1 group-data-[collapsible=icon]:hidden">Notifications</h3>
