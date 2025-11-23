@@ -144,23 +144,37 @@ const LeftSidebar = () => {
                 >
                   <NavLink to={item.path}>
                     {({ isActive }) => (
-                      <div
-                        className={cn(
-                          'relative w-full flex items-center gap-2 px-2 py-1.5 rounded-md text-sm transition-colors',
-                          isActive
-                            ? 'bg-secondary text-foreground font-medium'
-                            : 'text-muted-foreground hover:bg-secondary/90 dark:hover:bg-secondary/60 hover:text-foreground'
-                        )}
+                      <motion.div
+                        initial={{ scale: 1 }}
+                        whileTap={{
+                          scale: 0.975,
+                          transition: {
+                            type: "spring",
+                            stiffness: 200,
+                            damping: 12,
+                            mass: 0.2,
+                          }
+                        }}
+                        exit={{ scale: 1 }}
+                        className="w-full"
                       >
-                        {isActive && (
-                          <div className="w-1 h-5 bg-foreground rounded-full absolute left-0" />
-                        )}
-
-                        <div className="px-4 flex items-center justify-center gap-1">
-                          <item.icon className="h-4 w-4" />
-                          <span className="text-sm">{item.name}</span>
+                        <div
+                          className={cn(
+                            'relative w-full flex items-center gap-[8px] px-[8px] py-[6px] rounded-md text-sm transition-colors',
+                            isActive
+                              ? 'bg-input/70 text-foreground font-medium'
+                              : 'text-muted-foreground hover:bg-secondary/10 dark:hover:bg-secondary/60 hover:text-foreground'
+                          )}
+                        >
+                          {isActive && (
+                            <div className="w-1 h-5 bg-foreground rounded-full absolute left-0" />
+                          )}
+                          <div className="px-[16px] flex items-center justify-center gap-[8px]">
+                            <item.icon className="h-[16px] w-[16px]" />
+                            <span className="text-sm">{item.name}</span>
+                          </div>
                         </div>
-                      </div>
+                      </motion.div>
                     )}
                   </NavLink>
                 </SidebarMenuButton>
@@ -186,22 +200,22 @@ const LeftSidebar = () => {
                     <SidebarMenuSub>
                       {item.children
                         ? item.children.map((child) => (
-                            <Tooltip key={child}>
-                              <TooltipTrigger>
-                                <SidebarMenuSubItem>
-                                  <SidebarMenuSubButton asChild>
-                                    <motion.span
-                                      whileHover={{ x: 2, transition: { duration: 0.2 } }}
-                                      className="cursor-pointer"
-                                    >
-                                      {child}
-                                    </motion.span>
-                                  </SidebarMenuSubButton>
-                                </SidebarMenuSubItem>
-                              </TooltipTrigger>
-                              <TooltipContent>Coming Soon</TooltipContent>
-                            </Tooltip>
-                          ))
+                          <Tooltip key={child}>
+                            <TooltipTrigger>
+                              <SidebarMenuSubItem>
+                                <SidebarMenuSubButton asChild>
+                                  <motion.span
+                                    whileHover={{ x: 2, transition: { duration: 0.2 } }}
+                                    className="cursor-pointer"
+                                  >
+                                    {child}
+                                  </motion.span>
+                                </SidebarMenuSubButton>
+                              </SidebarMenuSubItem>
+                            </TooltipTrigger>
+                            <TooltipContent>Coming Soon</TooltipContent>
+                          </Tooltip>
+                        ))
                         : null}
                     </SidebarMenuSub>
                   </CollapsibleContent>

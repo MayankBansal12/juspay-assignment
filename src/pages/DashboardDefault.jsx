@@ -7,6 +7,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { cn } from '@/lib/utils'
 import { TrendingDown, TrendingUp } from 'lucide-react'
 import { motion } from 'motion/react'
 import {
@@ -167,22 +168,23 @@ const DashboardDefault = () => {
               <TooltipTrigger asChild>
                 <motion.div
                   variants={fadeInUp}
-                  className={`
-                    ${kpi.bgColor ?? 'bg-secondary'}
-                    ${kpi.textColor ?? 'text-foreground'}
-                    rounded-lg h-fit md:h-[115px] p-4 lg:p-6 flex flex-col gap-2 overflow-hidden cursor-default
-                  `}
+                  className={cn(
+                    kpi.bgColor ?? 'bg-secondary',
+                    kpi.textColor ?? 'text-foreground',
+                    'rounded-lg min-h-[100px] p-4 lg:p-6 flex flex-col gap-2 overflow-hidden cursor-default',
+                    'flex-shrink-0'
+                  )}
                 >
-                  <p className="text-sm font-semibold">{kpi.title}</p>
+                  <p className="text-sm font-semibold whitespace-nowrap">{kpi.title}</p>
 
-                  <div className="flex justify-between items-center gap-4">
-                    <p className="text-2xl font-semibold">{kpi.value}</p>
-                    <p className="text-xs flex items-center gap-1">
+                  <div className="flex justify-between items-center gap-2 sm:gap-4 flex-wrap">
+                    <p className="text-xl sm:text-2xl font-semibold break-words">{kpi.value}</p>
+                    <p className="text-xs flex items-center gap-1 whitespace-nowrap shrink-0">
                       <span>{kpi.change}</span>
                       {kpi.isPositive ? (
-                        <TrendingUp className="h-4 w-4" />
+                        <TrendingUp className="h-4 w-4 shrink-0" />
                       ) : (
-                        <TrendingDown className="h-4 w-4 rotate-[105deg]" />
+                        <TrendingDown className="h-4 w-4 rotate-[105deg] shrink-0" />
                       )}
                     </p>
                   </div>
