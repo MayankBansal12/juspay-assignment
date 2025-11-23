@@ -76,6 +76,14 @@ const SidebarProvider = React.forwardRef(
       [setOpenProp, open]
     )
 
+    const handleMobileOpenChange = React.useCallback(
+      (value) => {
+        setOpenMobile(value)
+        setOpen(value)
+      },
+      [setOpen]
+    )
+
     React.useEffect(() => {
       if (isMobile) {
         setOpenMobile(open)
@@ -126,11 +134,11 @@ const SidebarProvider = React.forwardRef(
         setOpen,
         isMobile,
         openMobile,
-        setOpenMobile,
+        setOpenMobile: handleMobileOpenChange,
         toggleSidebar,
         width: sidebarWidth,
       }),
-      [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar, sidebarWidth]
+      [state, open, setOpen, isMobile, openMobile, handleMobileOpenChange, toggleSidebar, sidebarWidth]
     )
 
     const content = (
