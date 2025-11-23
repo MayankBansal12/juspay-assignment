@@ -111,7 +111,7 @@ export function DataTableToolbar({ table }) {
           placeholder="Search..."
           value={globalFilter}
           onChange={(e) => table.setGlobalFilter(e.target.value)}
-          className="pl-8 h-8 bg-primary/10"
+          className="pl-8 h-8 bg-input"
         />
       </div>
     </div>

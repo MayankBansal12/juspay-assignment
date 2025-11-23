@@ -77,7 +77,7 @@ const ActivitySidebar = () => {
             })}
           </motion.div>
         </div>
-        <div>
+        <div className="relative">
           <h3 className="font-semibold text-sm mb-2 px-1 group-data-[collapsible=icon]:hidden">
             Activities
           </h3>
@@ -87,26 +87,37 @@ const ActivitySidebar = () => {
             animate="visible"
             className="space-y-1 group-data-[collapsible=icon]:hidden"
           >
-            {activities.map((activity) => (
-              <motion.div
-                key={activity.id}
-                variants={itemVariants}
-                whileHover={{ backgroundColor: 'hsl(var(--secondary))' }}
-                className="flex gap-2 items-start p-2 rounded-md cursor-pointer transition-colors"
-              >
-                <div className="h-6 w-6 rounded-full overflow-hidden bg-background border-2 border-background flex-shrink-0">
-                  <img
-                    src={activity.user.avatar}
-                    alt={activity.user.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-foreground truncate">{activity.action}</p>
-                  <p className="text-xs text-muted-foreground">{activity.timestamp}</p>
-                </div>
-              </motion.div>
-            ))}
+            {activities.map((activity, index) => {
+              const isLastActivity = index === activities.length - 1
+              return (
+                <motion.div
+                  key={activity.id}
+                  variants={itemVariants}
+                  whileHover={{ backgroundColor: 'hsl(var(--secondary))' }}
+                  className="flex gap-3 items-start p-2 rounded-md cursor-pointer transition-colors relative"
+                >
+                  <div className="relative flex flex-col items-center">
+                    <div className="h-6 w-6 rounded-full overflow-hidden bg-background border-2 border-background flex-shrink-0">
+                      <img
+                        src={activity.user.avatar}
+                        alt={activity.user.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    {!isLastActivity && (
+                      <span
+                        className="absolute top-full mt-1 w-0.5 h-5 rounded-full bg-input pointer-events-none"
+                        aria-hidden="true"
+                      ></span>
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-foreground truncate">{activity.action}</p>
+                    <p className="text-xs text-muted-foreground">{activity.timestamp}</p>
+                  </div>
+                </motion.div>
+              )
+            })}
           </motion.div>
         </div>
         <div>
