@@ -144,21 +144,15 @@ const LeftSidebar = () => {
                 >
                   <NavLink to={item.path}>
                     {({ isActive }) => (
-                      <motion.div
-                        initial={{ scale: 1 }}
-                        whileTap={{
-                          scale: 0.975,
-                          transition: {
-                            type: "spring",
-                            stiffness: 200,
-                            damping: 12,
-                            mass: 0.2,
-                          }
-                        }}
-                        exit={{ scale: 1 }}
-                        className="w-full"
-                      >
-                        <div
+                      <div className="w-full">
+                        <motion.div
+                          style={{
+                            transformOrigin: "center",
+                            willChange: "transform",
+                            overflow: "visible"
+                          }}
+                          whileTap={{ scale: 0.97 }}
+                          transition={{ duration: 0.05 }}
                           className={cn(
                             'relative w-full flex items-center gap-[8px] px-[8px] py-[6px] rounded-md text-sm transition-colors',
                             isActive
@@ -167,14 +161,14 @@ const LeftSidebar = () => {
                           )}
                         >
                           {isActive && (
-                            <div className="w-1 h-5 bg-foreground rounded-full absolute left-0" />
+                            <div className="w-[4px] h-[20px] bg-foreground rounded-full absolute left-0" />
                           )}
                           <div className="px-[16px] flex items-center justify-center gap-[8px]">
                             <item.icon className="h-[16px] w-[16px]" />
-                            <span className="text-sm">{item.name}</span>
+                            <span>{item.name}</span>
                           </div>
-                        </div>
-                      </motion.div>
+                        </motion.div>
+                      </div>
                     )}
                   </NavLink>
                 </SidebarMenuButton>
