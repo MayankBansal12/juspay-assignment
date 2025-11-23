@@ -23,7 +23,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import mapImage from "@/assets/Map.svg"
+import { ComposableMap, Geographies, Geography, ZoomableGroup } from 'react-simple-maps'
 
 const kpiData = [
   {
@@ -307,7 +307,51 @@ const DashboardDefault = () => {
         <div className="bg-secondary p-4 lg:p-6 rounded-lg flex flex-col gap-4">
           <h2 className="text-sm font-semibold">Revenue by Location</h2>
           <div className="flex flex-col gap-4 items-between">
-            <img src={mapImage} className="max-h-[100px]" alt="map" />
+            <div className="w-full max-h-[100px] overflow-hidden rounded-md cursor-grab active:cursor-grabbing bg-background">
+              <ComposableMap
+                projectionConfig={{
+                  scale: 80,
+                  center: [0, 20],
+                }}
+                width={400}
+                height={100}
+                style={{ width: '100%', height: 'auto' }}
+              >
+                <ZoomableGroup
+                  zoom={1}
+                  center={[0, 20]}
+                  minZoom={0.8}
+                  maxZoom={3}
+                >
+                  <Geographies geography="https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json">
+                    {({ geographies }) =>
+                      geographies.map((geo) => (
+                        <Geography
+                          key={geo.rsmKey}
+                          geography={geo}
+                          fill="hsl(var(--chart-1))"
+                          stroke="hsl(var(--border))"
+                          strokeWidth={0.5}
+                          style={{
+                            default: {
+                              outline: 'none',
+                            },
+                            hover: {
+                              fill: 'hsl(var(--chart-2))',
+                              outline: 'none',
+                            },
+                            pressed: {
+                              fill: 'hsl(var(--chart-2))',
+                              outline: 'none',
+                            },
+                          }}
+                        />
+                      ))
+                    }
+                  </Geographies>
+                </ZoomableGroup>
+              </ComposableMap>
+            </div>
 
             <div className="space-y-4">
               {locationData.map((location) => (
